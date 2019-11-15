@@ -1,0 +1,11 @@
+${AnsiColor.RED}
+ __          __  _ _   _ _
+ \ \        / / | | \ | (_)
+  \ \  /\  / /  | |  \| |_ _ __   __ _
+   \ \/  \/ /   | | . ` | | '_ \ / _` |
+    \  /\  / |__| | |\  | | | | | (_| |
+     \/  \/ \____/|_| \_|_|_| |_|\__, |
+                                  __/ |
+                                 |___/
+my name is WangJingning,this is first blog project as me,welcome everyone!
+${AnsiColor.BLACK}
