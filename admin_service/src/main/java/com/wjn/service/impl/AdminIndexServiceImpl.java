@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.wjn.bean.validator.AlterPassword;
+import com.wjn.constant.UserEnum;
 import com.wjn.exception.ServiceException;
 import com.wjn.mapper.UserMapper;
 import com.wjn.model.admin.BeanConstant;
@@ -59,7 +60,7 @@ public class AdminIndexServiceImpl implements AdminIndexService {
         //加密为16进制表示 判断
         String encryptHex = aes.encryptHex(alterPassword.getPassword());
         Example example = new Example(User.class);
-        example.createCriteria().andEqualTo(BeanConstant.PASSWORD,encryptHex);
+        example.createCriteria().andEqualTo(UserEnum.password.name(),encryptHex);
         List<User> users = userMapper.selectByExample(example);
         if(CollUtil.isEmpty(users)){
             throw new ServiceException(504,"原密码不正确");
