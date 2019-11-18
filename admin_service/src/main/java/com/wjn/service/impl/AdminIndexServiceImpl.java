@@ -9,12 +9,12 @@ import com.wjn.mapper.UserMapper;
 import com.wjn.model.admin.BeanConstant;
 import com.wjn.model.admin.User;
 import com.wjn.service.AdminIndexService;
+import com.wjn.utils.ConfigConstant;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -27,9 +27,10 @@ import java.util.List;
 @Slf4j
 public class AdminIndexServiceImpl implements AdminIndexService {
 
-    @Value("${key}")
-    private String keyStr;
-    @Resource
+
+    @Autowired
+    private ConfigConstant configConstant;
+    @Autowired
     private UserMapper userMapper;
 
     @Override
@@ -53,8 +54,7 @@ public class AdminIndexServiceImpl implements AdminIndexService {
         if(!alterPassword.getNewPassword().equals(alterPassword.getRenewPassword())){
             throw new ServiceException(503,"确认密码不相同");
         }
-
-        byte[] key = keyStr.getBytes();
+        byte[] key = configConstant.getKeyStr().getBytes();
         SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, key);
         //加密为16进制表示 判断
         String encryptHex = aes.encryptHex(alterPassword.getPassword());

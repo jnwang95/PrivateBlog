@@ -11,6 +11,9 @@ import com.wjn.bean.BlogContentVo;
 import com.wjn.bean.CategoryVo;
 import com.wjn.bean.Pagination;
 import com.wjn.bean.TitleImgVo;
+import com.wjn.constant.BlogContentEnum;
+import com.wjn.constant.CategoryEnum;
+import com.wjn.constant.NaturalNumber;
 import com.wjn.mapper.BlogContentMapper;
 import com.wjn.mapper.CategoryMapper;
 import com.wjn.mapper.TitleImgMapper;
@@ -19,12 +22,12 @@ import com.wjn.model.admin.Category;
 import com.wjn.model.admin.TitleImg;
 import com.wjn.service.BlogService;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,23 +41,22 @@ import java.util.List;
 @Transactional
 public class BlogServiceImpl implements BlogService {
 
-    @Resource
+    @Autowired
     private CategoryMapper categoryMapper;
-    @Resource
+    @Autowired
     private BlogContentMapper blogContentMapper;
-    @Resource
+    @Autowired
     private TitleImgMapper titleImgMapper;
-
 
     @Override
     public Integer getCategoryId() {
         Example example = new Example(Category.class);
-        example.selectProperties("id").orderBy("id").desc();
-        List<Category> categories = categoryMapper.selectByExampleAndRowBounds(example, new RowBounds(0, 1));
+        example.selectProperties(CategoryEnum.id.name()).orderBy(CategoryEnum.id.name()).desc();
+        List<Category> categories = categoryMapper.selectByExampleAndRowBounds(example, new RowBounds(NaturalNumber.zero, NaturalNumber.one));
         if(CollUtil.isEmpty(categories)){
-            return 0;
+            return NaturalNumber.zero;
         }
-        return categories.get(0).getId();
+        return categories.get(NaturalNumber.zero).getId();
     }
 
     @Override
@@ -64,8 +66,7 @@ public class BlogServiceImpl implements BlogService {
         DateTime time = DateTime.now();
         category.setEntryTime(time.toJdkDate());
         int resultNumber = categoryMapper.insertSelective(category);
-        System.out.println(category.getId());
-        return resultNumber == 1;
+        return resultNumber == NaturalNumber.one;
     }
 
     @Override
@@ -74,10 +75,10 @@ public class BlogServiceImpl implements BlogService {
         Example example = new Example(Category.class);
         Example.Criteria criteria = example.createCriteria();
         if(!StringUtils.isEmpty(cate.getId())){
-            criteria.andLike("id","%"+cate.getId().toString()+"%");
+            criteria.andLike(CategoryEnum.id.name(),"%"+cate.getId().toString()+"%");
         }
         if(!StringUtils.isEmpty(cate.getName())){
-            criteria.andLike("name","%"+cate.getName()+"%");
+            criteria.andLike(CategoryEnum.name.name(),"%"+cate.getName()+"%");
         }
         Page<Object> objects = PageHelper.startPage(cate.getPageNum(), cate.getPageSize());
         List<Category> categories = categoryMapper.selectByExample(example);
@@ -100,7 +101,7 @@ public class BlogServiceImpl implements BlogService {
         Category category = new Category();
         BeanUtil.copyProperties(categoryVo,category);
         int resultNumber = categoryMapper.updateByPrimaryKeySelective(category);
-        return resultNumber == 1;
+        return resultNumber == NaturalNumber.one;
     }
 
     @Override
@@ -110,7 +111,7 @@ public class BlogServiceImpl implements BlogService {
         }
         Integer integer = Convert.toInt(id);
         int number = categoryMapper.deleteByPrimaryKey(integer);
-        return number == 1;
+        return number == NaturalNumber.one;
     }
 
     @Override
@@ -127,14 +128,14 @@ public class BlogServiceImpl implements BlogService {
         Category category = new Category();
         BeanUtil.copyProperties(categoryVo,category);
         int resultNumber = categoryMapper.updateByPrimaryKeySelective(category);
-        return resultNumber == 1;
+        return resultNumber == NaturalNumber.one;
     }
 
     @Override
     public boolean batchDeleteCategory(String ids) {
         String replace = ids.replace("[", "").replace("]", "").replace("\"", "");
         String[] strings = replace.split(",");
-        if(strings.length == 0){
+        if(strings.length == NaturalNumber.zero){
             return false;
         }
         for (String str : strings) {
@@ -149,13 +150,13 @@ public class BlogServiceImpl implements BlogService {
         BlogContentVo.conver(blogContenVo,blogContent);
         blogContent.setEntryTime(System.currentTimeMillis());
         int resultNumber = blogContentMapper.insertSelective(blogContent);
-        return resultNumber == 1;
+        return resultNumber == NaturalNumber.one;
     }
 
     @Override
     public List<Category> getCategoryIdAndName() {
         Example example = new Example(Category.class);
-        example.selectProperties("id", "name");
+        example.selectProperties(CategoryEnum.id.name(), CategoryEnum.name.name());
         List<Category> categories = categoryMapper.selectByExample(example);
         if(CollUtil.isEmpty(categories)){
             return null;
@@ -167,16 +168,16 @@ public class BlogServiceImpl implements BlogService {
     public Pagination getBlogs(BlogContentVo blog) {
         Pagination<BlogContentVo> pagination = new Pagination<>();
         Example example = new Example(BlogContent.class);
-        example.excludeProperties("content","subTitle","img");
+        example.excludeProperties(BlogContentEnum.content.name(),BlogContentEnum.subTitle.name(),BlogContentEnum.img.name());
         Example.Criteria criteria = example.createCriteria();
         if(!StringUtils.isEmpty(blog.getCategoryId())){
-            criteria.andEqualTo("categoryId",blog.getCategoryId());
+            criteria.andEqualTo(BlogContentEnum.categoryId.name(),blog.getCategoryId());
         }
         if(!StringUtils.isEmpty(blog.getState())){
-            criteria.andEqualTo("state",blog.getState());
+            criteria.andEqualTo(BlogContentEnum.state.name(),blog.getState());
         }
         if(!StringUtils.isEmpty(blog.getAuthor())){
-            criteria.andLike("author","%"+blog.getAuthor()+"%");
+            criteria.andLike(BlogContentEnum.author.name(),"%"+blog.getAuthor()+"%");
         }
         Page<Object> objects = PageHelper.startPage(blog.getPageNum(), blog.getPageSize());
         List<BlogContent> blogContents = blogContentMapper.selectByExample(example);
@@ -210,19 +211,19 @@ public class BlogServiceImpl implements BlogService {
         BlogContent blogContent = BlogContent.of();
         BlogContentVo.conver(blogContentVo,blogContent);
         int resultNumber = blogContentMapper.updateByPrimaryKeySelective(blogContent);
-        return resultNumber == 1;
+        return resultNumber == NaturalNumber.one;
     }
 
     @Override
     public String getBlogContentById(Integer id) {
         Example example = new Example(BlogContent.class);
-        example.selectProperties("content");
-        example.createCriteria().andEqualTo("id",id);
+        example.selectProperties(BlogContentEnum.content.name());
+        example.createCriteria().andEqualTo(BlogContentEnum.id.name(),id);
         List<BlogContent> blogContents = blogContentMapper.selectByExample(example);
         if(CollUtil.isEmpty(blogContents)){
             return null;
         }
-        return blogContents.get(0).getContent();
+        return blogContents.get(NaturalNumber.zero).getContent();
     }
 
     @Override
@@ -232,14 +233,14 @@ public class BlogServiceImpl implements BlogService {
         }
         Integer integer = Convert.toInt(id);
         int number = blogContentMapper.deleteByPrimaryKey(integer);
-        return number == 1;
+        return number == NaturalNumber.one;
     }
 
     @Override
     public boolean batchDeleteBlog(String ids) {
         String replace = ids.replace("[", "").replace("]", "").replace("\"", "");
         String[] strings = replace.split(",");
-        if(strings.length == 0){
+        if(strings.length == NaturalNumber.zero){
             return false;
         }
         for (String str : strings) {
@@ -254,12 +255,12 @@ public class BlogServiceImpl implements BlogService {
         BlogContentVo blogContentVo = new BlogContentVo();
         BeanUtil.copyProperties(blogContent,blogContentVo);
         Example example = new Example(Category.class);
-        example.selectProperties("name");
-        example.createCriteria().andEqualTo("id",blogContent.getCategoryId());
+        example.selectProperties(CategoryEnum.name.name());
+        example.createCriteria().andEqualTo(CategoryEnum.id.name(),blogContent.getCategoryId());
         List<Category> categories = categoryMapper.selectByExample(example);
         blogContentVo.setCategory(categories.get(0).getName());
         String label = blogContentVo.getLabel();
-        String[] split = null;
+        String[] split;
         List<String> list = new LinkedList<>();
         if(label.contains(",")){
             split = label.split(",");
@@ -276,9 +277,9 @@ public class BlogServiceImpl implements BlogService {
         BlogContent blogContent =  BlogContent.of();
         BlogContentVo.conver(blogContentVo,blogContent);
         Example example = new Example(BlogContent.class);
-        example.createCriteria().andEqualTo("id",blogContent.getId());
+        example.createCriteria().andEqualTo(BlogContentEnum.id.name(),blogContent.getId());
         int resultNumber = blogContentMapper.updateByExampleSelective(blogContent, example);
-        return resultNumber == 1;
+        return resultNumber == NaturalNumber.one;
     }
 
     @Override
@@ -306,10 +307,10 @@ public class BlogServiceImpl implements BlogService {
         DateTime time = DateTime.now();
         TitleImg titleImg = new TitleImg();
         titleImg.setUrl(url);
-        titleImg.setState(1);
+        titleImg.setState(NaturalNumber.one);
         titleImg.setEntryTime(time.toJdkDate());
         int resultNumber = titleImgMapper.insert(titleImg);
-        return resultNumber == 1;
+        return resultNumber == NaturalNumber.one;
     }
 
     @Override
@@ -319,7 +320,7 @@ public class BlogServiceImpl implements BlogService {
         }
         Integer integer = Convert.toInt(id);
         int resultNumber = titleImgMapper.deleteByPrimaryKey(integer);
-        return resultNumber == 1;
+        return resultNumber == NaturalNumber.one;
     }
 
     @Override
@@ -337,6 +338,6 @@ public class BlogServiceImpl implements BlogService {
         Example example = new Example(TitleImg.class);
         example.createCriteria().andEqualTo("id",titleImg.getId());
         int resultNumber = titleImgMapper.updateByExampleSelective(titleImg, example);
-        return resultNumber == 1;
+        return resultNumber == NaturalNumber.one;
     }
 }

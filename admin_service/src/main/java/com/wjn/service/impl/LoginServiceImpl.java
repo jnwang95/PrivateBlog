@@ -1,6 +1,7 @@
 package com.wjn.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.wjn.constant.UserEnum;
 import com.wjn.mapper.UserMapper;
 import com.wjn.model.admin.User;
 import com.wjn.service.LoginService;
@@ -30,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public boolean JudgeUser(String username, String password) {
         Example example = new Example(User.class);
-        example.createCriteria().andEqualTo("username",username);
+        example.createCriteria().andEqualTo(UserEnum.username.name(),username);
         List<User> users = userMapper.selectByExample(example);
         if(CollUtil.isEmpty(users)){
             return false;

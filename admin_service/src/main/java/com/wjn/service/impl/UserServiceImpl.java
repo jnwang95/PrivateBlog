@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.wjn.bean.dto.RegisterUserDto;
+import com.wjn.constant.NaturalNumber;
 import com.wjn.mapper.UserMapper;
 import com.wjn.model.admin.User;
 import com.wjn.service.UserService;
@@ -25,19 +26,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getName(Integer id) {
         User user = userMapper.selectByPrimaryKey(id);
-
         return user.getName();
     }
 
     @Override
     public void register(RegisterUserDto register) {
         User user = User.of();
-        
         BeanUtil.copyProperties(register,user);
         String password = BCrypt.hashpw(user.getPassword());
                  user
                 .setPassword(password)
-                .setState(1)
+                .setState(NaturalNumber.one)
                 .setEntryTime(DateUtil.date());
         userMapper.insert(user);
     }
