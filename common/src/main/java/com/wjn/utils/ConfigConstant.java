@@ -2,6 +2,7 @@ package com.wjn.utils;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
+@PropertySource(value = {"classpath:config/global.properties"})
 public class ConfigConstant {
 
     /** oss处访问图片的 url */

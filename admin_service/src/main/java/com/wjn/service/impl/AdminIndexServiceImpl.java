@@ -4,10 +4,10 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.wjn.bean.validator.AlterPassword;
+import com.wjn.constant.NaturalNumber;
 import com.wjn.constant.UserEnum;
 import com.wjn.exception.ServiceException;
 import com.wjn.mapper.UserMapper;
-import com.wjn.model.admin.BeanConstant;
 import com.wjn.model.admin.User;
 import com.wjn.service.AdminIndexService;
 import com.wjn.utils.ConfigConstant;
@@ -46,10 +46,10 @@ public class AdminIndexServiceImpl implements AdminIndexService {
 
     @Override
     public void alterPassword(AlterPassword alterPassword) {
-        if(alterPassword.getPassword().length() <= 6 || alterPassword.getPassword().length() > 20){
+        if(alterPassword.getPassword().length() <= NaturalNumber.six || alterPassword.getPassword().length() > 20){
             throw new ServiceException(501,"原密码不合法");
         }
-        if(alterPassword.getNewPassword().length() <= 6 || alterPassword.getNewPassword().length() > 20){
+        if(alterPassword.getNewPassword().length() <= NaturalNumber.six || alterPassword.getNewPassword().length() > 20){
             throw new ServiceException(502,"新密码不合法");
         }
         if(!alterPassword.getNewPassword().equals(alterPassword.getRenewPassword())){
