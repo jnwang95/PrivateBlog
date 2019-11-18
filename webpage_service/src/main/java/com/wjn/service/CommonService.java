@@ -1,8 +1,9 @@
 package com.wjn.service;
 
-import com.wjn.blog.familyblog.bean.index.dto.BannerDto;
-import com.wjn.blog.familyblog.bean.index.dto.HeaderDto;
-import com.wjn.blog.familyblog.bean.index.dto.MenuDto;
+
+import com.wjn.bean.dto.BannerDto;
+import com.wjn.bean.dto.HeaderDto;
+import com.wjn.bean.dto.MenuDto;
 
 import java.util.List;
 

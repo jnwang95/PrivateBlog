@@ -1,9 +1,10 @@
 package com.wjn.service.impl;
 
-import com.wjn.blog.familyblog.bean.index.dto.BlogContentDto;
-import com.wjn.blog.familyblog.mapper.BlogContentMapper;
-import com.wjn.blog.familyblog.model.BlogContent;
-import com.wjn.blog.familyblog.service.view.ViewBlogService;
+import cn.hutool.core.bean.BeanUtil;
+import com.wjn.bean.dto.BlogContentDto;
+import com.wjn.mapper.BlogContentMapper;
+import com.wjn.model.admin.BlogContent;
+import com.wjn.service.ViewBlogService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +24,7 @@ public class ViewBlogServiceImpl implements ViewBlogService {
     public BlogContentDto getContentById(Long id) {
         BlogContent blogContent = blogContentMapper.selectByPrimaryKey(id);
         BlogContentDto blogContentDto = BlogContentDto.of();
-        BlogContent.conver(blogContent,blogContentDto);
+        BeanUtil.copyProperties(blogContent,blogContentDto);
         return blogContentDto;
     }
 }

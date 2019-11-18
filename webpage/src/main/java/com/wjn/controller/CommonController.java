@@ -1,10 +1,10 @@
 package com.wjn.controller;
 
-import com.wjn.blog.familyblog.bean.index.dto.BannerDto;
-import com.wjn.blog.familyblog.bean.index.dto.HeaderDto;
-import com.wjn.blog.familyblog.bean.index.dto.MenuDto;
-import com.wjn.blog.familyblog.common.utils.JsonResult;
-import com.wjn.blog.familyblog.service.view.CommonService;
+import com.wjn.bean.dto.BannerDto;
+import com.wjn.bean.dto.HeaderDto;
+import com.wjn.bean.dto.MenuDto;
+import com.wjn.service.CommonService;
+import com.wjn.utils.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

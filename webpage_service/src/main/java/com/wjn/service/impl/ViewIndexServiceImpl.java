@@ -1,13 +1,14 @@
 package com.wjn.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.wjn.blog.familyblog.bean.index.dto.*;
-import com.wjn.blog.familyblog.bean.page.Pagination;
-import com.wjn.blog.familyblog.common.constant.GlobalConstant;
-import com.wjn.blog.familyblog.mapper.*;
-import com.wjn.blog.familyblog.model.*;
-import com.wjn.blog.familyblog.service.view.ViewIndexService;
+import com.wjn.bean.Pagination;
+import com.wjn.bean.dto.BlogContentDto;
+import com.wjn.constant.GlobalConstant;
+import com.wjn.mapper.BlogContentMapper;
+import com.wjn.model.admin.BlogContent;
+import com.wjn.service.ViewIndexService;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -42,7 +43,7 @@ public class ViewIndexServiceImpl implements ViewIndexService {
                 blogContent.setSubTitle(blogContent.getSubTitle().substring(0, 29) + "...");
             }
             BlogContentDto blogContentDto = BlogContentDto.of();
-            BlogContent.conver(blogContent,blogContentDto);
+            BeanUtil.copyProperties(blogContent,blogContentDto);
             list.add(blogContentDto);
         }
         pagination.setPageNum(objects.getPageNum());

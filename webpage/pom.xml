@@ -11,5 +11,16 @@
 
     <artifactId>webpage</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.wjn</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wjn</groupId>
+            <artifactId>webpage_service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

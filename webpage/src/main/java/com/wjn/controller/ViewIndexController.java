@@ -1,9 +1,9 @@
 package com.wjn.controller;
 
-import com.wjn.blog.familyblog.bean.index.dto.*;
-import com.wjn.blog.familyblog.bean.page.Pagination;
-import com.wjn.blog.familyblog.common.utils.JsonResult;
-import com.wjn.blog.familyblog.service.view.ViewIndexService;
+import com.wjn.bean.Pagination;
+import com.wjn.bean.dto.BlogContentDto;
+import com.wjn.service.ViewIndexService;
+import com.wjn.utils.JsonResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

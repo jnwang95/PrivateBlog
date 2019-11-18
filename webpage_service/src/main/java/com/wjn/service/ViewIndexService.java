@@ -1,7 +1,8 @@
 package com.wjn.service;
 
-import com.wjn.blog.familyblog.bean.index.dto.*;
-import com.wjn.blog.familyblog.bean.page.Pagination;
+import com.wjn.bean.Pagination;
+import com.wjn.bean.dto.BlogContentDto;
+
 
 /**
  * @auther WJN

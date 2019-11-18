@@ -1,6 +1,7 @@
 package com.wjn.service;
 
-import com.wjn.blog.familyblog.bean.index.dto.BlogContentDto;
+
+import com.wjn.bean.dto.BlogContentDto;
 
 /**
  * @auther WJN

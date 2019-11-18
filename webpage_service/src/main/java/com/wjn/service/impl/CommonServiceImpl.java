@@ -1,15 +1,16 @@
 package com.wjn.service.impl;
 
-import com.wjn.blog.familyblog.bean.index.dto.BannerDto;
-import com.wjn.blog.familyblog.bean.index.dto.HeaderDto;
-import com.wjn.blog.familyblog.bean.index.dto.MenuDto;
-import com.wjn.blog.familyblog.mapper.BannerMapper;
-import com.wjn.blog.familyblog.mapper.HeaderMapper;
-import com.wjn.blog.familyblog.mapper.MenuMapper;
-import com.wjn.blog.familyblog.model.Banner;
-import com.wjn.blog.familyblog.model.BeanConstant;
-import com.wjn.blog.familyblog.model.Header;
-import com.wjn.blog.familyblog.service.view.CommonService;
+import cn.hutool.core.bean.BeanUtil;
+import com.wjn.bean.dto.BannerDto;
+import com.wjn.bean.dto.HeaderDto;
+import com.wjn.bean.dto.MenuDto;
+import com.wjn.mapper.BannerMapper;
+import com.wjn.mapper.HeaderMapper;
+import com.wjn.mapper.MenuMapper;
+import com.wjn.model.admin.Banner;
+import com.wjn.model.admin.BeanConstant;
+import com.wjn.model.admin.Header;
+import com.wjn.service.CommonService;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -18,7 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static com.wjn.blog.familyblog.common.constant.GlobalConstant.TRUE;
+import static com.wjn.constant.GlobalConstant.TRUE;
+
 
 /**
  * @auther WJN
@@ -62,7 +64,7 @@ public class CommonServiceImpl implements CommonService {
         example.createCriteria().andEqualTo(BeanConstant.STATE,TRUE);
         List<Header> headers = headerMapper.selectByExample(example);
         HeaderDto headerDto = new HeaderDto();
-        Header.conver(headers.get(0), headerDto);
+        BeanUtil.copyProperties(headers.get(0), headerDto);
         return headerDto;
     }
 
@@ -73,7 +75,7 @@ public class CommonServiceImpl implements CommonService {
         example.createCriteria().andEqualTo("html",html);
         List<Banner> banners = bannerMapper.selectByExample(example);
         BannerDto bannerDto = BannerDto.of();
-        Banner.conver(banners.get(0),bannerDto);
+        BeanUtil.copyProperties(banners.get(0),bannerDto);
         return bannerDto;
     }
 
