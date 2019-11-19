@@ -10,9 +10,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * The type User controller.
+ *
  * @auther WJN
- * @date 2019/9/1 0001 下午 5:15
- * @describe 用户模块，主要进行注册，修改密码，注销账号，封停账号等功能
+ * @date 2019 /9/1 0001 下午 5:15
+ * @describe 用户模块 ，主要进行注册，修改密码，注销账号，封停账号等功能
  */
 @Api(tags = "用户接口")
 @CrossOrigin

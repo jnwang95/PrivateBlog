@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
+ * The type Admin index controller.
+ *
  * @auther WJN
- * @date 2019/9/17 15:19
+ * @date 2019 /9/17 15:19
  * @describetion 首页控制器
  */
 @Api(value = "后台主页接口")
@@ -27,7 +29,8 @@ public class AdminIndexController {
 
     /**
      * 获取用户名使用
-     * @return
+     *
+     * @return json result
      */
     @GetMapping("username")
     @ApiOperation(value = "用户名")
@@ -38,7 +41,9 @@ public class AdminIndexController {
 
     /**
      * 修改密码
-     * @return
+     *
+     * @param alterPassword the alter password
+     * @return json result
      */
     @PostMapping("alterPassword")
     @ApiOperation(value = "修改密码")

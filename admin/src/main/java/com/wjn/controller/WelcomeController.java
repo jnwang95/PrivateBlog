@@ -11,8 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * The type Welcome controller.
+ *
  * @auther WJN
- * @date 2019/10/12 13:43
+ * @date 2019 /10/12 13:43
  * @describetion
  */
 @RestController
@@ -21,7 +23,8 @@ public class WelcomeController {
 
     /**
      * 通过hutool自带的工具方法，获取当前系统等信息
-     * @return
+     *
+     * @return json result
      */
     @GetMapping("version")
     @ApiOperation(value = "获取系统信息")

@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
+ * The type Token controller.
+ *
  * @auther WJN
- * @date 2019/10/11 16:12
+ * @date 2019 /10/11 16:12
  * @describetion 对存在的页面进行token验证
  */
 @RestController()
@@ -21,7 +23,8 @@ public class TokenController {
 
     /**
      * 验证token是否为合法身份
-     * @return
+     *
+     * @return json result
      */
     @GetMapping("verification")
     public JsonResult verificationToken(){

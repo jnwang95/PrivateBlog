@@ -47,4 +47,7 @@ public class User implements Serializable {
     //注册日期
     @ApiModelProperty("注册日期")
     private Date entryTime;
+    //角色Id
+    @ApiModelProperty("角色Id")
+    private Integer roleId;
 }

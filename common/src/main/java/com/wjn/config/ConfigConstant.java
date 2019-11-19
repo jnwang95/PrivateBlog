@@ -1,4 +1,4 @@
-package com.wjn.utils;
+package com.wjn.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,5 +34,8 @@ public class ConfigConstant {
     //加密使用
     @Value("${key}")
     private String keyStr;
+    //redis
+    @Value("${redis.host}")
+    private String host;
 
 }

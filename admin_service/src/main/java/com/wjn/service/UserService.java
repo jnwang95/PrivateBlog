@@ -2,6 +2,9 @@ package com.wjn.service;
 
 
 import com.wjn.bean.dto.RegisterUserDto;
+import com.wjn.model.admin.User;
+
+import java.util.List;
 
 /**
  * @auther WJN
@@ -17,4 +20,18 @@ public interface UserService {
      * @param register
      */
     void register(RegisterUserDto register);
+
+    /**
+     * 根据用户名查询用户
+     * @param username
+     * @return
+     */
+    User findByName(String username);
+
+ /**
+  * 根据角色Id获取到权限Id集合
+  * @param roleId
+  * @return
+  */
+ List<Integer> getPermissionIdsByRoleId(Integer roleId);
 }

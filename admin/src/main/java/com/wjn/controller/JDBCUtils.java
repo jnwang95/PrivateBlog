@@ -14,8 +14,10 @@ import java.util.List;
 
 
 /**
+ * The type Jdbc utils.
+ *
  * @auther WJN
- * @date 2019/9/27 10:44
+ * @date 2019 /9/27 10:44
  * @describetion
  */
 public class JDBCUtils {
@@ -28,8 +30,8 @@ public class JDBCUtils {
     /**
      * 查询所有数据库名
      *
-     * @return 数据库名集合
-     * @throws Exception
+     * @return 数据库名集合 databases
+     * @throws Exception the exception
      */
     public static List<String> getDatabases() throws Exception {
         Connection connection;
@@ -51,9 +53,9 @@ public class JDBCUtils {
     /**
      * 查询某个数据库的所有表名
      *
-     * @param database
-     * @return
-     * @throws Exception
+     * @param database the database
+     * @return tables tables
+     * @throws Exception the exception
      */
     public static List<String> getTables(String database) throws Exception {
         Connection connection;
@@ -75,10 +77,11 @@ public class JDBCUtils {
 
     /**
      * 获取某个数据库某个表的所有列的属性
-     * @param database
-     * @param table
-     * @return
-     * @throws Exception
+     *
+     * @param database the database
+     * @param table    the table
+     * @return table attributes
+     * @throws Exception the exception
      */
     public static List<Columns> getTableAttributes(String database, String table) throws Exception {
         Connection connection;
@@ -131,6 +134,14 @@ public class JDBCUtils {
     }
 
 
+    /**
+     * Gets table name.
+     *
+     * @param database the database
+     * @param table    the table
+     * @return the table name
+     * @throws Exception the exception
+     */
     public static List<String> getTableName(String database, String table) throws Exception {
         Connection connection;
         connection = conn();
@@ -154,10 +165,11 @@ public class JDBCUtils {
 
     /**
      * 获取某个表的所有数据
-     * @param database
-     * @param table
-     * @return
-     * @throws Exception
+     *
+     * @param database the database
+     * @param table    the table
+     * @return table data
+     * @throws Exception the exception
      */
     public static List<List<String>> getTableData(String database, String table) throws Exception {
         Connection connection;

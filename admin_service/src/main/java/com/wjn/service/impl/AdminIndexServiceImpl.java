@@ -10,7 +10,7 @@ import com.wjn.exception.ServiceException;
 import com.wjn.mapper.UserMapper;
 import com.wjn.model.admin.User;
 import com.wjn.service.AdminIndexService;
-import com.wjn.utils.ConfigConstant;
+import com.wjn.config.ConfigConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,6 +72,10 @@ public class AdminIndexServiceImpl implements AdminIndexService {
                 throw new ServiceException(505,"密码更新失败");
             }
         }
+    }
+
+    public void main(String[] args) throws Throwable {
+
     }
 
 }

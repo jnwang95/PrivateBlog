@@ -7,7 +7,7 @@ import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.wjn.bean.validator.LoginUser;
 import com.wjn.service.LoginService;
-import com.wjn.utils.ConfigConstant;
+import com.wjn.config.ConfigConstant;
 import com.wjn.utils.HttpContextUtils;
 import com.wjn.utils.JsonResult;
 import io.swagger.annotations.Api;
@@ -26,8 +26,10 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 /**
+ * The type Login controller.
+ *
  * @auther WJN
- * @date 2019/9/2 13:18
+ * @date 2019 /9/2 13:18
  * @describetion 登陆控制器
  */
 @RestController
@@ -43,7 +45,9 @@ public class LoginController {
     /**
      * TODO 注意：自定义头信息，如果不加response.setHeader("Access-Control-Expose-Headers", "token")，前端是获取不到的
      *
-     * @return
+     * @param loginUser the login user
+     * @param result    the result
+     * @return json result
      */
 //    @Log("账号登录")
     @PostMapping("login")
@@ -88,7 +92,8 @@ public class LoginController {
 
     /**
      * 用户推出，消除session
-     * @return
+     *
+     * @return json result
      */
     @GetMapping("logout")
     @ApiOperation(value = "账号退出")
@@ -125,7 +130,8 @@ public class LoginController {
 
     /**
      * 测试加密解密用
-     * @param args
+     *
+     * @param args the input arguments
      */
     public static void main(String[] args) {
         byte[] key = "asdfghjsdfghjhsl".getBytes();
