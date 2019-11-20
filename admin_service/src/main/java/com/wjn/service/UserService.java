@@ -34,4 +34,6 @@ public interface UserService {
   * @return
   */
  List<Integer> getPermissionIdsByRoleId(Integer roleId);
+
+    List<Integer> getPermissionIdsByUsername(String username);
 }

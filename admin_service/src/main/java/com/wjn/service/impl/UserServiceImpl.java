@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
         Example example = new Example(User.class);
         example.createCriteria().andEqualTo(UserEnum.username.name(),username);
         List<User> users = userMapper.selectByExampleAndRowBounds(example, new RowBounds(NaturalNumber.zero, NaturalNumber.one));
-        return users.get(NaturalNumber.one);
+        return users.get(NaturalNumber.zero);
     }
 
     @Override
@@ -70,5 +70,15 @@ public class UserServiceImpl implements UserService {
             list.add(rolePermission.getPermissionId());
         }
         return list;
+    }
+
+    @Override
+    public List<Integer> getPermissionIdsByUsername(String username) {
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("username",username);
+        List<User> users = userMapper.selectByExample(example);
+        Integer roleId = users.get(0).getRoleId();
+        List<Integer> permissionIdsByRoleId = getPermissionIdsByRoleId(roleId);
+        return permissionIdsByRoleId;
     }
 }

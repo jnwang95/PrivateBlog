@@ -15,11 +15,11 @@ import lombok.Getter;
 @Getter
 public enum JsonReturnCode {
 
-    NOT_LOGIN("401","not_login"),
+    NOT_LOGIN("401","没有登录"),
     SUCCESS ("200","success"),
     FAIL ("500","fail"),
 	ACCESS_ERROR ("403","access_error"),
-	NOT_FOUND ("404","not_found");
+	NOT_FOUND ("404","资源未找到");
     private String code;
     private String desc;
 
@@ -37,7 +37,6 @@ public enum JsonReturnCode {
     }
 
     public String getDesc() {
-//        return Resources.getMessage(this.desc);
         return desc;
     }
 

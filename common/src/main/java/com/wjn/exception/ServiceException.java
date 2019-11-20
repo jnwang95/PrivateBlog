@@ -1,5 +1,7 @@
 package com.wjn.exception;
 
+import cn.hutool.core.convert.Convert;
+import com.wjn.utils.JsonReturnCode;
 import lombok.Data;
 
 /**
@@ -28,6 +30,9 @@ public class ServiceException extends RuntimeException {
 		this.code = code;
 		this.message = message;
 	}
-	
-	
+
+	public ServiceException(String message) {
+		this.code =500;
+		this.message = message;
+	}
 }

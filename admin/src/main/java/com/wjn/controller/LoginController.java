@@ -8,10 +8,15 @@ import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.wjn.bean.validator.LoginUser;
 import com.wjn.service.LoginService;
 import com.wjn.config.ConfigConstant;
+import com.wjn.util.JWTUtil;
+import com.wjn.util.PasswordUtil;
 import com.wjn.utils.HttpContextUtils;
 import com.wjn.utils.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -41,15 +46,16 @@ public class LoginController {
     private LoginService loginService;
     @Autowired
     private ConfigConstant configConstant;
+    @Autowired
+    private PasswordUtil passwordUtil;
+    @Autowired
+    private JWTUtil jwtUtil;
 
     /**
-     * TODO 注意：自定义头信息，如果不加response.setHeader("Access-Control-Expose-Headers", "token")，前端是获取不到的
-     *
      * @param loginUser the login user
      * @param result    the result
      * @return json result
      */
-//    @Log("账号登录")
     @PostMapping("login")
     @ApiOperation(value = "用户登录")
     public JsonResult login(@Valid LoginUser loginUser, BindingResult result){
@@ -72,34 +78,24 @@ public class LoginController {
         session.removeAttribute(CAPTCHA_KEY);
         //验证账号密码的正确性
         //构建
-        SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, configConstant.getKeyStr().getBytes());
-        //加密为16进制表示 判断
-        String encryptHex = aes.encryptHex(loginUser.getPassword());
-         boolean trueOrFalse = loginService.JudgeUser(loginUser.getUsername(),encryptHex);
-         //如果账号密码错误则返回
-         if(!trueOrFalse){
-             return JsonResult.failMessage("账号或者密码错误");
-         }
-        //设置http头信息
-        String token = UUID.randomUUID().toString();
-        response.setHeader(configConstant.getToken(),token);
-        response.setHeader("Access-Control-Expose-Headers", configConstant.getToken());
-        //设置session信息，用来验证客户
-        session.setAttribute(configConstant.getToken(),token);
-        session.setMaxInactiveInterval(60*60*24);
-        return JsonResult.success();
+        String encryptPassword = passwordUtil.encrypt(loginUser.getPassword());
+//        UsernamePasswordToken upToken = new UsernamePasswordToken(loginUser.getUsername(),encryptPassword);
+//        //2.获取subject
+//        Subject subject = SecurityUtils.getSubject();
+//        //3.调用login方法，进入realm完成认证
+//        subject.login(upToken);
+        String token = jwtUtil.createJwt(loginUser.getUsername(), encryptPassword);
+        return JsonResult.success(token);
     }
 
     /**
-     * 用户推出，消除session
-     *
+     * 用户退出
      * @return json result
      */
     @GetMapping("logout")
     @ApiOperation(value = "账号退出")
     public JsonResult logout(){
-        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        request.getSession().removeAttribute(configConstant.getToken());
+        SecurityUtils.getSubject().logout();
         return JsonResult.success();
     }
 
