@@ -23,9 +23,8 @@
         </dependency>
         <dependency>
             <groupId>com.wjn</groupId>
-            <artifactId>shiro_config</artifactId>
+            <artifactId>permission</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

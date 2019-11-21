@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>shiro_config</artifactId>
+    <artifactId>permission</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.wjn</groupId>

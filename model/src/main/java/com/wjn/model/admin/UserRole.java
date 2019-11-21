@@ -1,6 +1,5 @@
 package com.wjn.model.admin;
 
-import cn.hutool.core.util.IdUtil;
 import lombok.Data;
 
 import javax.persistence.GeneratedValue;
@@ -21,7 +20,12 @@ public class UserRole implements Serializable {
     private Integer id;
 
     /**
-     * 角色名称
+     * 角色ID
      */
-    private String roleName;
+    private Integer roleId;
+
+    /**
+     * 用户Id
+     */
+    private Long userId;
 }

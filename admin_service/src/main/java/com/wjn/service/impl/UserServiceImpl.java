@@ -7,10 +7,15 @@ import com.wjn.bean.dto.RegisterUserDto;
 import com.wjn.constant.NaturalNumber;
 import com.wjn.constant.RolePermissionEnum;
 import com.wjn.constant.UserEnum;
+import com.wjn.constant.UserRoleEnum;
+import com.wjn.mapper.RoleMapper;
 import com.wjn.mapper.RolePermissionMapper;
 import com.wjn.mapper.UserMapper;
+import com.wjn.mapper.UserRoleMapper;
+import com.wjn.model.admin.Role;
 import com.wjn.model.admin.RolePermission;
 import com.wjn.model.admin.User;
+import com.wjn.model.admin.UserRole;
 import com.wjn.service.UserService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +23,9 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @auther WJN
@@ -32,12 +39,10 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
-
-    @Override
-    public String getName(Integer id) {
-        User user = userMapper.selectByPrimaryKey(id);
-        return user.getName();
-    }
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public void register(RegisterUserDto register) {
@@ -73,12 +78,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Integer> getPermissionIdsByUsername(String username) {
-        Example example = new Example(User.class);
-        example.createCriteria().andEqualTo("username",username);
-        List<User> users = userMapper.selectByExample(example);
-        Integer roleId = users.get(0).getRoleId();
-        List<Integer> permissionIdsByRoleId = getPermissionIdsByRoleId(roleId);
-        return permissionIdsByRoleId;
+    public List<Integer> getRoleIdsByUserId(Long userId) {
+        Example example = new Example(UserRole.class);
+        example.createCriteria().andEqualTo(UserRoleEnum.userId.name(),userId);
+        List<UserRole> userRoles = userRoleMapper.selectByExample(example);
+        List<Integer> roleIds = new ArrayList<>();
+        for (UserRole userRole : userRoles) {
+            roleIds.add(userRole.getRoleId());
+        }
+        return roleIds;
+    }
+
+    @Override
+    public Set<String> getRoleNameByRoleIds(List<Integer> roleIds) {
+        Set<String> roleNames = new HashSet<>();
+        for (Integer roleId : roleIds) {
+            Role role = roleMapper.selectByPrimaryKey(roleId);
+            roleNames.add(role.getRoleName());
+        }
+        return roleNames;
     }
 }

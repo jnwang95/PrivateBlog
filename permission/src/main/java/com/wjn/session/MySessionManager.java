@@ -26,8 +26,6 @@ public class MySessionManager extends DefaultWebSessionManager {
             //如果没有携带，生成新的sessionId
             return super.getSessionId(request,response);
         }else{
-            //请求头信息：bearer sessionid
-            id = id.replaceAll("Bearer ","");
             //返回sessionId；
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, "header");
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);

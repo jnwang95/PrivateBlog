@@ -2,13 +2,11 @@ package com.wjn.controller;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
-import cn.hutool.core.lang.UUID;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.wjn.bean.validator.LoginUser;
 import com.wjn.service.LoginService;
 import com.wjn.config.ConfigConstant;
-import com.wjn.util.JWTUtil;
 import com.wjn.util.PasswordUtil;
 import com.wjn.utils.HttpContextUtils;
 import com.wjn.utils.JsonResult;
@@ -48,8 +46,6 @@ public class LoginController {
     private ConfigConstant configConstant;
     @Autowired
     private PasswordUtil passwordUtil;
-    @Autowired
-    private JWTUtil jwtUtil;
 
     /**
      * @param loginUser the login user
@@ -73,19 +69,21 @@ public class LoginController {
         HttpSession session = request.getSession();
         Object captcha_key = session.getAttribute(CAPTCHA_KEY);
         if(!loginUser.getVerify().equalsIgnoreCase(captcha_key + "")){
+            session.removeAttribute(CAPTCHA_KEY);
             return JsonResult.failMessage("验证码不正确");
         }
         session.removeAttribute(CAPTCHA_KEY);
         //验证账号密码的正确性
         //构建
         String encryptPassword = passwordUtil.encrypt(loginUser.getPassword());
-//        UsernamePasswordToken upToken = new UsernamePasswordToken(loginUser.getUsername(),encryptPassword);
-//        //2.获取subject
-//        Subject subject = SecurityUtils.getSubject();
-//        //3.调用login方法，进入realm完成认证
-//        subject.login(upToken);
-        String token = jwtUtil.createJwt(loginUser.getUsername(), encryptPassword);
-        return JsonResult.success(token);
+        UsernamePasswordToken upToken = new UsernamePasswordToken(loginUser.getUsername(),encryptPassword);
+        //2.获取subject
+        Subject subject = SecurityUtils.getSubject();
+        //3.调用login方法，进入realm完成认证
+        subject.login(upToken);
+        //4.获取sessionId
+        String sessionId = (String)subject.getSession().getId();
+        return JsonResult.success(sessionId);
     }
 
     /**
@@ -133,7 +131,7 @@ public class LoginController {
         byte[] key = "asdfghjsdfghjhsl".getBytes();
         SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, key);
         //加密为16进制表示 判断
-        String encryptHex = aes.encryptHex("admin123");
+        String encryptHex = aes.encryptHex("123456");
         System.out.println(encryptHex);
     }
 

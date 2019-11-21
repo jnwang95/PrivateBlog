@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @create: 2019-11-20 13:42
  */
 @Component
-public class PasswordUtil {
+public class PasswordUtil{
 
     @Autowired
     private ConfigConstant configConstant;

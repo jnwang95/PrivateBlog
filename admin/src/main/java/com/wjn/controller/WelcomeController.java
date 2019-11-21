@@ -4,6 +4,7 @@ import cn.hutool.system.*;
 import com.wjn.utils.JsonResult;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,9 +30,8 @@ public class WelcomeController {
      */
     @GetMapping("version")
     @ApiOperation(value = "获取系统信息")
+    @RequiresRoles(value = "common")
     public JsonResult getVersion(){
-
-        Object principal = SecurityUtils.getSubject().getPrincipal();
 
         Map<String,String> map = new HashMap<>();
         JvmSpecInfo jvmSpecInfo = SystemUtil.getJvmSpecInfo();

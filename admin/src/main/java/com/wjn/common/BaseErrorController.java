@@ -1,9 +1,8 @@
 package com.wjn.common;
 
+import com.wjn.config.ShiroStatue;
 import com.wjn.utils.JsonResult;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,8 +18,8 @@ public class BaseErrorController {
      * @return
      */
     @RequestMapping(value="401")
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public JsonResult autherror(){
-        return JsonResult.failMessage("未授权");
+    public JsonResult autherror(int code){
+       if(code == ShiroStatue.NO_LOGIN.getCode()) return JsonResult.failMessage(ShiroStatue.NO_LOGIN.getDesc());
+        return JsonResult.failMessage(ShiroStatue.NO_PERMISSION.getDesc());
     }
 }

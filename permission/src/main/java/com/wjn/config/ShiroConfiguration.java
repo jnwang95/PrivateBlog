@@ -1,7 +1,6 @@
 package com.wjn.config;
 
 import com.wjn.session.MySessionManager;
-import com.wjn.util.JWTFilter;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -15,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -29,6 +27,11 @@ import java.util.Map;
 public class ShiroConfiguration {
     @Autowired
     private ConfigConstant configConstant;
+    //1.创建realm
+    @Bean
+    public MyRealm getRealm() {
+        return new MyRealm();
+    }
 
     /**
      * 2.创建安全管理器
@@ -54,33 +57,31 @@ public class ShiroConfiguration {
      */
      @Bean
      public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
-        //创建shiro过滤器工厂
-        ShiroFilterFactoryBean filterFactory = new ShiroFilterFactoryBean();
-
-         //添加自己的过滤器并且取名为jwt
-         Map<String, Filter> filterMapJWT = new HashMap<>();
-         filterMapJWT.put("jwt", new JWTFilter());
-         filterFactory.setFilters(filterMapJWT);
+         //1.创建过滤器工厂
+         ShiroFilterFactoryBean filterFactory = new ShiroFilterFactoryBean();
+         //2.设置安全管理器
          filterFactory.setSecurityManager(securityManager);
-        //4.配置过滤器集合
-        /*
-         * key ：访问连接
-         *     支持通配符的形式
-         * value：过滤器类型
-         *     shiro常用过滤器
-         *         anno   ：匿名访问（表明此链接所有人可以访问）
-         *         authc   ：认证后访问（表明此链接需登录认证成功之后可以访问）
-         */
-        Map<String,String> filterMap = new LinkedHashMap<String,String>();
-        //配置请求连接过滤器配置
-        //匿名访问（所有人员可以使用），这里设置登录和图形验证码所有人可以访问
-        filterMap.put("/login", "anon");
-        filterMap.put("/captcha", "anon");
-        //自定义认证方式
-        filterMap.put("/**", "jwt");
-        //5.设置过滤器
-        filterFactory.setFilterChainDefinitionMap(filterMap);
-        return filterFactory;
+
+//         Map<String, Filter> filters = filterFactory.getFilters();
+//         filters.put("wjn", new MyFormAuthorizationFilter());
+
+         //3.通用配置（跳转登录页面，未授权跳转的页面）
+
+         filterFactory.setLoginUrl("/401?code="+ShiroStatue.NO_LOGIN.getCode());//跳转url地址
+         filterFactory.setUnauthorizedUrl("/401?code="+ShiroStatue.NO_PERMISSION.getCode());//未授权的url
+         //4.设置过滤器集合
+         Map<String,String> filterMap = new LinkedHashMap<>();
+         //配置请求连接过滤器配置
+         //匿名访问（所有人员可以使用），这里设置登录和图形验证码所有人可以访问
+         filterMap.put("/login", "anon");
+         filterMap.put("/captcha", "anon");
+         filterMap.put("/logout", "anon");
+         filterMap.put("/401", "anon");
+         //自定义认证方式
+         filterMap.put("/**", "authc");
+         //5.设置过滤器
+         filterFactory.setFilterChainDefinitionMap(filterMap);
+         return filterFactory;
     }
 
     /**
@@ -105,9 +106,12 @@ public class ShiroConfiguration {
      * 3.会话管理器
      */
     private DefaultWebSessionManager sessionManager() {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        //MySessionManager sessionManager = new MySessionManager();
+        MySessionManager sessionManager = new MySessionManager();
         sessionManager.setSessionDAO(redisSessionDAO());
+        //禁用cookie
+        sessionManager.setSessionIdCookieEnabled(false);
+        //禁用重写url
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
         return sessionManager;
     }
 

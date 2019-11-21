@@ -10,7 +10,7 @@
         <module>model</module>
         <module>webpage</module>
         <module>webpage_service</module>
-        <module>shiro_config</module>
+        <module>permission</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

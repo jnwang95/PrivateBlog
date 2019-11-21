@@ -4,6 +4,7 @@ import com.wjn.bean.dto.RegisterUserDto;
 import com.wjn.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +33,7 @@ public class UserController {
      */
     @ApiOperation("注册账号")
     @PostMapping("register")
+    @RequiresRoles(value = "common")
     private String register(@RequestBody @Validated RegisterUserDto register, BindingResult bingingresult){
         // 如果验证不通过，错误信息会在BindingResult这个对象中
         if (bingingresult.hasErrors()) {

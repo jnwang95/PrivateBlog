@@ -10,6 +10,7 @@ import com.wjn.model.admin.Category;
 import com.wjn.service.BlogService;
 import com.wjn.config.ConfigConstant;
 import com.wjn.utils.JsonResult;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +42,7 @@ public class BlogController {
      * @return the json result
      */
     @PostMapping("/upload")
+    @RequiresRoles(value = "host")
     public JsonResult uploadBlog(@RequestParam("file") MultipartFile file) {
 
         String originalFilename = file.getOriginalFilename();
@@ -67,7 +69,8 @@ public class BlogController {
      * @param file the file
      * @return the json result
      */
-//上传默认图片
+   //上传默认图片
+    @RequiresRoles(value = "host")
     @PostMapping("/uploadTitleImg")
     public JsonResult uploadTitleImg(@RequestParam("file") MultipartFile file) {
 
@@ -95,7 +98,8 @@ public class BlogController {
      * @param url the url
      * @return the json result
      */
-//新增默认图片入库
+    //新增默认图片入库
+    @RequiresRoles(value = "host")
     @PostMapping("insertTitleImg")
     public JsonResult insertTitleImg(String url){
         boolean result = blogService.insertTitleImg(url);
@@ -111,7 +115,8 @@ public class BlogController {
      * @param blogContentVo the blog content vo
      * @return the json result
      */
-//新增博客
+    //新增博客
+    @RequiresRoles(value = "host")
     @PostMapping("insertBlog")
     public JsonResult insertBlog(BlogContentVo blogContentVo){
         boolean result = blogService.insertBlog(blogContentVo);
@@ -127,7 +132,8 @@ public class BlogController {
      * @param blogContentVo the blog content vo
      * @return the json result
      */
-//修改博客
+    //修改博客
+    @RequiresRoles(value = "host")
     @PostMapping("updataBlog")
     public JsonResult updataBlog(BlogContentVo blogContentVo){
         boolean result = blogService.updataBlog(blogContentVo);
@@ -142,7 +148,8 @@ public class BlogController {
      *
      * @return the json result
      */
-//获取最新的分类id
+    //获取最新的分类id
+    @RequiresRoles(value = {"common"})
     @GetMapping("getCategoryId")
     public JsonResult getCategoryId(){
         Integer categoryId = blogService.getCategoryId();
@@ -155,7 +162,8 @@ public class BlogController {
      * @param categoryVo the category vo
      * @return the json result
      */
-//新增分类
+    //新增分类
+    @RequiresRoles(value = "host")
     @PostMapping("addCategory")
     public JsonResult addCategory(CategoryVo categoryVo){
         boolean result = blogService.addCategory(categoryVo);
@@ -171,7 +179,8 @@ public class BlogController {
      * @param categoryVo the category vo
      * @return the json result
      */
-//获取分类列表
+    //获取分类列表
+    @RequiresRoles(value = {"common"})
     @PostMapping("getCategorys")
     public JsonResult getCategorys(CategoryVo categoryVo){
         Pagination pagination = blogService.getCategorys(categoryVo);
@@ -184,7 +193,8 @@ public class BlogController {
      * @param categoryVo the category vo
      * @return the json result
      */
-//修改分类状态
+    //修改分类状态
+    @RequiresRoles(value = "host")
     @PostMapping("updataCategoryState")
     public JsonResult updataCategoryState(CategoryVo categoryVo){
         boolean result = blogService.updataCategoryState(categoryVo);
@@ -200,7 +210,8 @@ public class BlogController {
      * @param blogContentVo the blog content vo
      * @return the json result
      */
-//修改博客状态
+    //修改博客状态
+    @RequiresRoles(value = "host")
     @PostMapping("updataBlogState")
     public JsonResult updataBlogState(BlogContentVo blogContentVo){
         boolean result = blogService.updataBlogState(blogContentVo);
@@ -216,7 +227,8 @@ public class BlogController {
      * @param id the id
      * @return the json result
      */
-//删除分类
+    //删除分类
+    @RequiresRoles(value = "host")
     @DeleteMapping("deleteCategory")
     public JsonResult deleteCategory(String id){
         boolean result = blogService.deleteCategory(id);
@@ -232,7 +244,8 @@ public class BlogController {
      * @param id the id
      * @return the json result
      */
-//删除博客
+    //删除博客
+    @RequiresRoles(value = "host")
     @DeleteMapping("deleteBlog")
     public JsonResult deleteBlog(String id){
         boolean result = blogService.deleteBlog(id);
@@ -248,7 +261,8 @@ public class BlogController {
      * @param id the id
      * @return the json result
      */
-//删除默认图片
+    //删除默认图片
+    @RequiresRoles(value = "host")
     @DeleteMapping("deleteTitleImgById")
     public JsonResult deleteTitleImgById(String id){
         boolean result = blogService.deleteTitleImgById(id);
@@ -264,7 +278,8 @@ public class BlogController {
      * @param id the id
      * @return the name by id
      */
-//根据id获取名称
+    //根据id获取名称
+    @RequiresRoles(value = {"common"})
     @GetMapping("getNameById/{id}")
     public JsonResult getNameById(@PathVariable("id") Integer id){
         String name = blogService.getNameById(id);
@@ -277,7 +292,8 @@ public class BlogController {
      * @param categoryVo the category vo
      * @return the json result
      */
-//修改名称
+    //修改名称
+    @RequiresRoles(value = "host")
     @PostMapping("updataCategoryNameById")
     public JsonResult updataCategoryNameById(CategoryVo categoryVo){
         if(StrUtil.isEmpty(categoryVo.getName())){
@@ -299,7 +315,8 @@ public class BlogController {
      * @param ids the ids
      * @return the json result
      */
-//批量删除分类
+    //批量删除分类
+    @RequiresRoles(value = "host")
     @PostMapping("batchDeleteCategory")
     public JsonResult batchDeleteCategory(String ids){
         boolean result = blogService.batchDeleteCategory(ids);
@@ -315,8 +332,9 @@ public class BlogController {
      * @param ids the ids
      * @return the json result
      */
-//批量删除博客
+    //批量删除博客
     @PostMapping("batchDeleteBlog")
+    @RequiresRoles(value = "host")
     public JsonResult batchDeleteBlog(String ids){
         boolean result = blogService.batchDeleteBlog(ids);
         if(result){
@@ -330,12 +348,14 @@ public class BlogController {
      *
      * @return the json result
      */
-//获取分类id和name
+    //获取分类id和name
+    @RequiresRoles(value = {"common"})
     @GetMapping("getCategoryIdAndName")
     public JsonResult getCategoryIdAndName(){
         List<Category> categoryIdAndName = blogService.getCategoryIdAndName();
         return JsonResult.success(categoryIdAndName);
     }
+
 
     /**
      * Get blogs json result.
@@ -343,7 +363,8 @@ public class BlogController {
      * @param blogContentVo the blog content vo
      * @return the json result
      */
-//获取博客列表
+    //获取博客列表
+    @RequiresRoles(value = {"common"})
     @PostMapping("getBlogs")
     public JsonResult getBlogs(BlogContentVo blogContentVo){
         Pagination pagination = blogService.getBlogs(blogContentVo);
@@ -356,7 +377,8 @@ public class BlogController {
      * @param id the id
      * @return the blog content by id
      */
-//根据id获取博客内容
+    //根据id获取博客内容
+    @RequiresRoles(value = {"common"})
     @GetMapping("getBlogContentById/{id}")
     public JsonResult getBlogContentById(@PathVariable("id")Integer id){
         String container = blogService.getBlogContentById(id);
@@ -369,7 +391,8 @@ public class BlogController {
      * @param id the id
      * @return the blog by id
      */
-//根据id获取博客
+    //根据id获取博客
+    @RequiresRoles(value = {"common"})
     @GetMapping("getBlogById/{id}")
     public JsonResult getBlogById(@PathVariable("id")Integer id){
         BlogContentVo blogContentVo = blogService.getBlogById(id);
@@ -381,7 +404,8 @@ public class BlogController {
      *
      * @return the json result
      */
-//获取所有默认图片
+    //获取所有默认图片
+    @RequiresRoles(value = {"common"})
     @GetMapping("getAllTitleImg")
     public JsonResult getAllTitleImg(){
         List<TitleImgVo> titleImgVos = blogService.getAllTitleImg();
@@ -393,7 +417,8 @@ public class BlogController {
      *
      * @return the json result
      */
-//随机获取url
+    //随机获取url
+    @RequiresRoles(value = {"common"})
     @GetMapping("getRandomUrl")
     public JsonResult getRandomUrl(){
         String url = blogService.getRandomUrl();
@@ -406,7 +431,8 @@ public class BlogController {
      * @param titleImgVo the title img vo
      * @return the json result
      */
-//修改默认图片的状态
+    //修改默认图片的状态
+    @RequiresRoles(value = "host")
     @PostMapping("updataTitleImgState")
     public JsonResult updataTitleImgState(TitleImgVo titleImgVo){
         boolean result = blogService.updataTitleImgState(titleImgVo);

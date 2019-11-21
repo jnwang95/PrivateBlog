@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    //@ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)
     public JsonResult handle401(UnauthorizedException e) {
         return JsonResult.failMessage("无操作权限");
@@ -99,7 +99,7 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    //@ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthenticatedException.class)
     public JsonResult handle401(UnauthenticatedException e) {
         return JsonResult.failMessage("无操作权限");
