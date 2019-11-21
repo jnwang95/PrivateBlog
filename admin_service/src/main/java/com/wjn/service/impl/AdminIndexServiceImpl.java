@@ -1,8 +1,6 @@
 package com.wjn.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
-import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.wjn.bean.validator.AlterPassword;
 import com.wjn.constant.NaturalNumber;
 import com.wjn.constant.UserEnum;
@@ -11,6 +9,7 @@ import com.wjn.mapper.UserMapper;
 import com.wjn.model.admin.User;
 import com.wjn.service.AdminIndexService;
 import com.wjn.config.ConfigConstant;
+import com.wjn.utils.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +32,8 @@ public class AdminIndexServiceImpl implements AdminIndexService {
     private ConfigConstant configConstant;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PasswordUtil passwordUtil;
 
     @Override
     public String getUsername() {
@@ -55,20 +56,17 @@ public class AdminIndexServiceImpl implements AdminIndexService {
         if(!alterPassword.getNewPassword().equals(alterPassword.getRenewPassword())){
             throw new ServiceException(503,"确认密码不相同");
         }
-        byte[] key = configConstant.getKeyStr().getBytes();
-        SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, key);
-        //加密为16进制表示 判断
-        String encryptHex = aes.encryptHex(alterPassword.getPassword());
+        String encryptPassword = passwordUtil.encrypt(alterPassword.getPassword());
         Example example = new Example(User.class);
-        example.createCriteria().andEqualTo(UserEnum.password.name(),encryptHex);
+        example.createCriteria().andEqualTo(UserEnum.password.name(),encryptPassword);
         List<User> users = userMapper.selectByExample(example);
         if(CollUtil.isEmpty(users)){
             throw new ServiceException(504,"原密码不正确");
         }else {
-            String newEncryptHex = aes.encryptHex(alterPassword.getNewPassword());
-            users.get(0).setPassword(newEncryptHex);
-            int i = userMapper.updateByPrimaryKeySelective(users.get(0));
-            if(i!=1){
+            String newEncryptPassword = passwordUtil.encrypt(alterPassword.getNewPassword());
+            users.get(NaturalNumber.zero).setPassword(newEncryptPassword);
+            int i = userMapper.updateByPrimaryKeySelective(users.get(NaturalNumber.zero));
+            if(i!= NaturalNumber.one){
                 throw new ServiceException(505,"密码更新失败");
             }
         }

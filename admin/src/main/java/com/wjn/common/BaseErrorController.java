@@ -1,6 +1,6 @@
 package com.wjn.common;
 
-import com.wjn.config.ShiroStatue;
+import com.wjn.config.ShiroState;
 import com.wjn.utils.JsonResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,7 @@ public class BaseErrorController {
      */
     @RequestMapping(value="401")
     public JsonResult autherror(int code){
-       if(code == ShiroStatue.NO_LOGIN.getCode()) return JsonResult.failMessage(ShiroStatue.NO_LOGIN.getDesc());
-        return JsonResult.failMessage(ShiroStatue.NO_PERMISSION.getDesc());
+       if(code == ShiroState.NO_LOGIN.getCode()) return JsonResult.failMessage(ShiroState.NO_LOGIN.getDesc());
+        return JsonResult.failMessage(ShiroState.NO_PERMISSION.getDesc());
     }
 }

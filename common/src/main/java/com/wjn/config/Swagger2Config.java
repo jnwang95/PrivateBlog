@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * @auther WJN
  * @date 2019/9/1 0001 下午 5:02
- * @describe swagger配置文件（展示接口文档并且测试的）
+ * @describe swagger配置文件（展示接口文档并且测试的）  127.0.0.1:8080/doc.html
  */
 @Configuration
 @EnableSwagger2
@@ -25,7 +25,7 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())
                 .groupName("实时监测")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.wjn.blog.familyblog"))
+                .apis(RequestHandlerSelectors.basePackage("com.wjn.blog"))
                 .paths(PathSelectors.any())
                 .build();
     }

@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum  ShiroStatue {
+public enum ShiroState {
 
     NO_LOGIN(402,"未登录"),
     NO_PERMISSION(403,"未授权");

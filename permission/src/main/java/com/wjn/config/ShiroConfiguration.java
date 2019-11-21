@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -62,17 +61,24 @@ public class ShiroConfiguration {
          //2.设置安全管理器
          filterFactory.setSecurityManager(securityManager);
 
-//         Map<String, Filter> filters = filterFactory.getFilters();
-//         filters.put("wjn", new MyFormAuthorizationFilter());
-
          //3.通用配置（跳转登录页面，未授权跳转的页面）
-
-         filterFactory.setLoginUrl("/401?code="+ShiroStatue.NO_LOGIN.getCode());//跳转url地址
-         filterFactory.setUnauthorizedUrl("/401?code="+ShiroStatue.NO_PERMISSION.getCode());//未授权的url
+         filterFactory.setLoginUrl("/401?code="+ ShiroState.NO_LOGIN.getCode());//跳转url地址
+         filterFactory.setUnauthorizedUrl("/401?code="+ ShiroState.NO_PERMISSION.getCode());//未授权的url
          //4.设置过滤器集合
          Map<String,String> filterMap = new LinkedHashMap<>();
          //配置请求连接过滤器配置
          //匿名访问（所有人员可以使用），这里设置登录和图形验证码所有人可以访问
+         /*
+          * /doc.html    SwaggerBootstrapUi提供的文档访问地址
+          * /api-docs-ext    SwaggerBootstrapUi提供的增强接口地址
+          * /swagger-resources    Springfox-Swagger提供的分组接口
+          * /api-docs    Springfox-Swagger提供的分组实例详情接口
+          * /swagger-ui.html    Springfox-Swagger提供的文档访问地址
+          * /swagger-resources/configuration/ui    Springfox-Swagger提供
+          * /swagger-resources/configuration/security    Springfox-Swagger提供
+          */
+
+         filterMap.put("/druid/**", "anon");
          filterMap.put("/login", "anon");
          filterMap.put("/captcha", "anon");
          filterMap.put("/logout", "anon");

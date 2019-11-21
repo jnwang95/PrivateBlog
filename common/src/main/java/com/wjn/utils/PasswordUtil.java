@@ -1,4 +1,4 @@
-package com.wjn.util;
+package com.wjn.utils;
 
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;

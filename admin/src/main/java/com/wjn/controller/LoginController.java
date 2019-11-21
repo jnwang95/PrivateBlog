@@ -5,16 +5,12 @@ import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.wjn.bean.validator.LoginUser;
-import com.wjn.service.LoginService;
-import com.wjn.config.ConfigConstant;
-import com.wjn.util.PasswordUtil;
+import com.wjn.utils.PasswordUtil;
+import com.wjn.util.ShiroUtil;
 import com.wjn.utils.HttpContextUtils;
 import com.wjn.utils.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -24,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 
@@ -40,10 +35,6 @@ import java.io.IOException;
 public class LoginController {
     private String CAPTCHA_KEY = "CAPTCHA_KEY";
 
-    @Autowired
-    private LoginService loginService;
-    @Autowired
-    private ConfigConstant configConstant;
     @Autowired
     private PasswordUtil passwordUtil;
 
@@ -65,24 +56,18 @@ public class LoginController {
             }
             return JsonResult.failMessage(sb.toString());
         }
-        //验证验证码正确性
-        HttpSession session = request.getSession();
-        Object captcha_key = session.getAttribute(CAPTCHA_KEY);
-        if(!loginUser.getVerify().equalsIgnoreCase(captcha_key + "")){
-            session.removeAttribute(CAPTCHA_KEY);
-            return JsonResult.failMessage("验证码不正确");
-        }
-        session.removeAttribute(CAPTCHA_KEY);
-        //验证账号密码的正确性
-        //构建
+        //验证验证码
+//        String kaptcha = ShiroUtil.getKaptcha(CAPTCHA_KEY);
+//        if(!loginUser.getVerify().equalsIgnoreCase(kaptcha)){
+//            return JsonResult.failMessage("验证码不正确");
+//        }
+
+        //获取加密的密码
         String encryptPassword = passwordUtil.encrypt(loginUser.getPassword());
-        UsernamePasswordToken upToken = new UsernamePasswordToken(loginUser.getUsername(),encryptPassword);
-        //2.获取subject
-        Subject subject = SecurityUtils.getSubject();
-        //3.调用login方法，进入realm完成认证
-        subject.login(upToken);
+        //登录
+        ShiroUtil.login(loginUser.getUsername(),encryptPassword);
         //4.获取sessionId
-        String sessionId = (String)subject.getSession().getId();
+        String sessionId = ShiroUtil.getSessionId();
         return JsonResult.success(sessionId);
     }
 
@@ -93,7 +78,7 @@ public class LoginController {
     @GetMapping("logout")
     @ApiOperation(value = "账号退出")
     public JsonResult logout(){
-        SecurityUtils.getSubject().logout();
+        ShiroUtil.logout();
         return JsonResult.success();
     }
 
@@ -109,9 +94,7 @@ public class LoginController {
         //生成验证码图片
         CircleCaptcha lineCaptcha = CaptchaUtil.createCircleCaptcha(200, 100);
         try {
-            HttpSession session = request.getSession();
-            session.setAttribute(CAPTCHA_KEY, lineCaptcha.getCode());
-            session.setMaxInactiveInterval(1000);
+            ShiroUtil.setSessionAttribute(CAPTCHA_KEY, lineCaptcha.getCode());
             response.setContentType("image/png");//告诉浏览器输出内容为图片
             response.setHeader("Pragma", "No-cache");//禁止浏览器缓存
             response.setHeader("Cache-Control", "no-cache");
