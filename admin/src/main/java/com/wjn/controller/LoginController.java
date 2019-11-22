@@ -2,26 +2,32 @@ package com.wjn.controller;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
+import cn.hutool.core.codec.Base64;
+import cn.hutool.core.lang.UUID;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.wjn.bean.validator.LoginUser;
+import com.wjn.service.LoginService;
 import com.wjn.utils.PasswordUtil;
-import com.wjn.util.ShiroUtil;
-import com.wjn.utils.HttpContextUtils;
+import com.wjn.utils.ShiroUtil;
 import com.wjn.utils.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The type Login controller.
@@ -33,10 +39,9 @@ import java.io.IOException;
 @RestController
 @Api(value = "登录接口", description = "登录接口")
 public class LoginController {
-    private String CAPTCHA_KEY = "CAPTCHA_KEY";
 
     @Autowired
-    private PasswordUtil passwordUtil;
+    private LoginService loginService;
 
     /**
      * @param loginUser the login user
@@ -46,28 +51,7 @@ public class LoginController {
     @PostMapping("login")
     @ApiOperation(value = "用户登录")
     public JsonResult login(@Valid LoginUser loginUser, BindingResult result){
-        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        HttpServletResponse response = HttpContextUtils.getHttpServletResponse();
-        //验证账号密码的合法性
-        if(result.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (ObjectError error : result.getAllErrors()) {
-                sb.append(error.getDefaultMessage()).append("\r\n");
-            }
-            return JsonResult.failMessage(sb.toString());
-        }
-        //验证验证码
-//        String kaptcha = ShiroUtil.getKaptcha(CAPTCHA_KEY);
-//        if(!loginUser.getVerify().equalsIgnoreCase(kaptcha)){
-//            return JsonResult.failMessage("验证码不正确");
-//        }
-
-        //获取加密的密码
-        String encryptPassword = passwordUtil.encrypt(loginUser.getPassword());
-        //登录
-        ShiroUtil.login(loginUser.getUsername(),encryptPassword);
-        //4.获取sessionId
-        String sessionId = ShiroUtil.getSessionId();
+        String sessionId = loginService.login(loginUser,result);
         return JsonResult.success(sessionId);
     }
 
@@ -88,21 +72,9 @@ public class LoginController {
      */
     @GetMapping("captcha")
     @ApiOperation(value = "图形验证码")
-    public void captcha(){
-        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        HttpServletResponse response = HttpContextUtils.getHttpServletResponse();
-        //生成验证码图片
-        CircleCaptcha lineCaptcha = CaptchaUtil.createCircleCaptcha(200, 100);
-        try {
-            ShiroUtil.setSessionAttribute(CAPTCHA_KEY, lineCaptcha.getCode());
-            response.setContentType("image/png");//告诉浏览器输出内容为图片
-            response.setHeader("Pragma", "No-cache");//禁止浏览器缓存
-            response.setHeader("Cache-Control", "no-cache");
-            response.setDateHeader("Expire", 0);
-            lineCaptcha.write(response.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public JsonResult captcha() throws IOException {
+        Map<String,String> map = loginService.captcha();
+        return JsonResult.success(map);
     }
 
     /**

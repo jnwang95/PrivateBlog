@@ -14,14 +14,11 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @author: jnWang
  * @create: 2019 -11-15 16:41
  */
+@Slf4j
 @SpringBootApplication
 @MapperScan({"com.wjn.mapper"})
 public class AppRunAdmin {
 
-    /**
-     * logger
-     */
-    private static final Logger logger = LoggerFactory.getLogger(AppRunAdmin.class);
     /**
      * The entry point of application.
      *
@@ -29,7 +26,7 @@ public class AppRunAdmin {
      */
     public static void main(String[] args) {
         SpringApplication.run(AppRunAdmin.class,args);
-        logger.info("<<<<<<<博客系统启动成功>>>>>>>");
+        log.info("<<<<<<<博客系统启动成功>>>>>>>");
     }
 
 }

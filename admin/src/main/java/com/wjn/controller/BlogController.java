@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +45,6 @@ public class BlogController {
     @PostMapping("/upload")
     @RequiresRoles(value = "host")
     public JsonResult uploadBlog(@RequestParam("file") MultipartFile file) {
-
         String originalFilename = file.getOriginalFilename();
         //获取图片后缀名
         assert originalFilename != null;

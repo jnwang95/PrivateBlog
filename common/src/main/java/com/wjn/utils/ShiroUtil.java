@@ -1,4 +1,4 @@
-package com.wjn.util;
+package com.wjn.utils;
 
 import com.wjn.model.admin.User;
 import org.apache.shiro.SecurityUtils;
@@ -49,15 +49,6 @@ public class ShiroUtil {
     }
     public static void setSessionAttribute(Object key, Object value) {
         getSession().setAttribute(key, value);
-    }
-
-    public static String getKaptcha(String key) {
-        Object kaptcha = getSessionAttribute(key);
-        if(kaptcha == null){
-            throw new SecurityException("验证码已失效");
-        }
-        getSession().removeAttribute(key);
-        return kaptcha.toString();
     }
 
     public static Object getSessionAttribute(Object key) {
