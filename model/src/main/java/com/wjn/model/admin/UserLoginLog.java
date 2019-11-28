@@ -19,33 +19,29 @@ import java.util.Date;
 @Getter
 @Setter
 @FieldNameConstants
-public class SysLog implements Serializable{
+public class UserLoginLog implements Serializable{
 	/**
 	 * id
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	/**
 	 * 账号
 	 */
 	private String username;
 	/**
-	 * 操作
+	 * 用户名
 	 */
-	private String operation;
+	private String name;
+	/**
+	 * 描述
+	 */
+	private String description;
 	/**
 	 * 时间
 	 */
 	private Integer time;
-	/**
-	 * 方法
-	 */
-	private String method;
-	/**
-	 * 属性
-	 */
-	private String params;
 	/**
 	 * ip
 	 */

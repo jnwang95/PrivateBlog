@@ -1,12 +1,11 @@
 package com.wjn.controller;
 
 import com.wjn.bean.validator.AlterPassword;
-import com.wjn.model.admin.User;
 import com.wjn.service.AdminIndexService;
 import com.wjn.utils.JsonResult;
+import com.wjn.utils.ShiroUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +35,7 @@ public class AdminIndexController {
     @ApiOperation(value = "用户名")
     @RequiresRoles(value = "common")
     public JsonResult username(){
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-       return JsonResult.success(user.getName());
+       return JsonResult.success(ShiroUtil.getUser().getName());
     }
 
     /**

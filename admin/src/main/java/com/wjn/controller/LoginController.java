@@ -1,33 +1,23 @@
 package com.wjn.controller;
 
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.CircleCaptcha;
-import cn.hutool.core.codec.Base64;
-import cn.hutool.core.lang.UUID;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
+import com.wjn.annotation.LoginLog;
 import com.wjn.bean.validator.LoginUser;
 import com.wjn.service.LoginService;
-import com.wjn.utils.PasswordUtil;
 import com.wjn.utils.ShiroUtil;
 import com.wjn.utils.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.imageio.ImageIO;
 import javax.validation.Valid;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * The type Login controller.
@@ -48,6 +38,7 @@ public class LoginController {
      * @param result    the result
      * @return json result
      */
+    @LoginLog
     @PostMapping("login")
     @ApiOperation(value = "用户登录")
     public JsonResult login(@Valid LoginUser loginUser, BindingResult result){

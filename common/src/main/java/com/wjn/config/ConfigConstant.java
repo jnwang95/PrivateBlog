@@ -34,10 +34,4 @@ public class ConfigConstant {
     //加密使用
     @Value("${key}")
     private String keyStr;
-    //redis
-    @Value("${redis.host}")
-    private String host;
-    @Value("${redis.password}")
-    private String password;
-
 }
