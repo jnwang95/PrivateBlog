@@ -32,9 +32,8 @@ public class ViewIndexServiceImpl implements ViewIndexService {
     public Pagination<BlogContentDto> getBLogs(Integer pageNum) {
         Pagination<BlogContentDto> pagination = new Pagination<>();
         Example example = new Example(BlogContent.class);
-        //example.orderBy("sort").asc();
-        example.selectProperties("id","title","subTitle","img");
-        example.createCriteria().andEqualTo("state",1);
+        example.selectProperties(BlogContent.Fields.id,BlogContent.Fields.title,BlogContent.Fields.subTitle,BlogContent.Fields.img);
+        example.createCriteria().andEqualTo(BlogContent.Fields.state,1);
         Page<Object> objects = PageHelper.startPage(pageNum, GlobalConstant.VIEW_BLOG_NUMBER);
         List<BlogContent> blogContents = blogContentMapper.selectByExample(example);
         List<BlogContentDto> list = new LinkedList<>();

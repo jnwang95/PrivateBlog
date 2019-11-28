@@ -25,8 +25,7 @@ public class PasswordUtil{
      */
     public String encrypt(String password){
         SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, configConstant.getKeyStr().getBytes());
-        String encryptPassword = aes.encryptHex(password);
-        return encryptPassword;
+        return aes.encryptHex(password);
     }
 
     /**
@@ -34,7 +33,6 @@ public class PasswordUtil{
      */
     public String decrypt(String encryptPassword){
         SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, configConstant.getKeyStr().getBytes());
-        String password = aes.decryptStr(encryptPassword);
-        return password;
+        return aes.decryptStr(encryptPassword);
     }
 }

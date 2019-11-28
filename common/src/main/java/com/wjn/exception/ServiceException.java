@@ -1,38 +1,26 @@
 package com.wjn.exception;
 
-import cn.hutool.core.convert.Convert;
 import com.wjn.utils.JsonReturnCode;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 自定义异常
  */
-@Data
+@Getter
+@Setter
 public class ServiceException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-	private int code;
-	private String message;
-	private Integer errorCode;
+	private Integer code;
+	private String msg;
 
-	public ServiceException(int errorCode, String message) {
-		this.code = 500;
-		this.message = message;
-		this.errorCode = errorCode;
-	}
-
-	public ServiceException(int errorCode, String message, int code) {
-		this.code = code;
-		this.message = message;
-		this.errorCode = errorCode;
-	}
-
-	public ServiceException(String message, int code) {
-		this.code = code;
-		this.message = message;
+	public ServiceException(JsonReturnCode jsonReturnCode) {
+		this.code = jsonReturnCode.getCode();;
+		this.msg = jsonReturnCode.getDesc();
 	}
 
 	public ServiceException(String message) {
-		this.code =500;
-		this.message = message;
+		this.code =JsonReturnCode.FAIL.getCode();
+		this.msg = message;
 	}
 }

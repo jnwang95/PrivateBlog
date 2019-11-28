@@ -1,7 +1,8 @@
 package com.wjn.model.admin;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,22 +15,28 @@ import java.util.Date;
  * @date 2019/10/20 0020 下午 2:49
  * @describe
  */
-@Data
+@Getter
+@Setter
+@FieldNameConstants
 public class TitleImg implements Serializable {
 
-    //主键ID
-    @ApiModelProperty("主键id")
+    /**
+     * 主键ID
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "JDBC")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    //地址
-    @ApiModelProperty("地址")
+    /**
+     * 地址
+     */
     private String url;
-    //状态
-    @ApiModelProperty("状态")
+    /**
+     * 状态
+     */
     private Integer state;
-    //录入时间
-    @ApiModelProperty("录入时间")
+    /**
+     * 录入时间
+     */
     private Date entryTime;
 
 }

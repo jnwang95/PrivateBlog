@@ -1,12 +1,10 @@
 package com.wjn.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.wjn.bean.dto.BannerDto;
 import com.wjn.bean.dto.HeaderDto;
 import com.wjn.bean.dto.MenuDto;
-import com.wjn.constant.BannerEnum;
-import com.wjn.constant.HeaderEnum;
-import com.wjn.constant.MenuEnum;
 import com.wjn.constant.NaturalNumber;
 import com.wjn.mapper.BannerMapper;
 import com.wjn.mapper.HeaderMapper;
@@ -49,8 +47,8 @@ public class CommonServiceImpl implements CommonService {
          * select menu_name as menus,url from menu where state = '1' order by sort asc ;
          */
         Example example = new Example(Menu.class);
-        example.selectProperties(MenuEnum.menuName.name(),MenuEnum.url.name()).createCriteria().andEqualTo(MenuEnum.state.name(), NaturalNumber.one);
-        example.orderBy(MenuEnum.sort.name()).asc();
+        example.selectProperties(Menu.Fields.menuName,Menu.Fields.url).createCriteria().andEqualTo(Menu.Fields.state, NaturalNumber.one);
+        example.orderBy(Menu.Fields.sort).asc();
         List<Menu> menus = menuMapper.selectByExample(example);
         List<MenuDto> menuDtos = new LinkedList<>();
         for (Menu menu : menus) {
@@ -70,20 +68,20 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public HeaderDto getHeader() {
         Example example = new Example(Header.class);
-        example.createCriteria().andEqualTo(HeaderEnum.state.name(),TRUE);
+        example.createCriteria().andEqualTo(Header.Fields.state,TRUE);
         List<Header> headers = headerMapper.selectByExample(example);
         HeaderDto headerDto = new HeaderDto();
-        BeanUtil.copyProperties(headers.get(NaturalNumber.zero), headerDto);
+        BeanUtil.copyProperties(CollUtil.getFirst(headers), headerDto);
         return headerDto;
     }
 
     @Override
     public BannerDto getBanner(String html) {
         Example example = new Example(Banner.class);
-        example.createCriteria().andEqualTo(BannerEnum.html.name(),html);
+        example.createCriteria().andEqualTo(Banner.Fields.html,html);
         List<Banner> banners = bannerMapper.selectByExample(example);
         BannerDto bannerDto = BannerDto.of();
-        BeanUtil.copyProperties(banners.get(NaturalNumber.zero),bannerDto);
+        BeanUtil.copyProperties(CollUtil.getFirst(banners),bannerDto);
         return bannerDto;
     }
 

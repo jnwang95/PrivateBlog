@@ -37,5 +37,7 @@ public class ConfigConstant {
     //redis
     @Value("${redis.host}")
     private String host;
+    @Value("${redis.password}")
+    private String password;
 
 }

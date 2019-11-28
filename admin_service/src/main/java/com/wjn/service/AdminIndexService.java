@@ -9,11 +9,6 @@ import com.wjn.bean.validator.AlterPassword;
  * @describe
  */
 public interface AdminIndexService {
-    /**
-     * 获取用户名
-     * @return
-     */
-    String getUsername();
 
     /**
      * 修改密码

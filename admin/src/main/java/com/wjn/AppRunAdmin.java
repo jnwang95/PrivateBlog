@@ -1,8 +1,6 @@
 package com.wjn;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tk.mybatis.spring.annotation.MapperScan;
@@ -28,5 +26,22 @@ public class AppRunAdmin {
         SpringApplication.run(AppRunAdmin.class,args);
         log.info("<<<<<<<博客系统启动成功>>>>>>>");
     }
+
+    /*
+     * 获取所有注入的Bean
+     */
+//    @Bean
+//    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+//        return args -> {
+//            System.out.println("Let's inspect the beans provided by Spring Boot:");
+//
+//            String[] beanNames = ctx.getBeanDefinitionNames();
+//            Arrays.sort(beanNames);
+//            for (String beanName : beanNames) {
+//                log.info(beanName);
+//            }
+//
+//        };
+//    }
 
 }

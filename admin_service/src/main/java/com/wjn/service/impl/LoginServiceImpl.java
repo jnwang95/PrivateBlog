@@ -7,11 +7,11 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
 import com.wjn.bean.validator.LoginUser;
-import com.wjn.constant.UserEnum;
+import com.wjn.exception.ServiceException;
 import com.wjn.mapper.UserMapper;
 import com.wjn.model.admin.User;
 import com.wjn.service.LoginService;
-import com.wjn.utils.JsonResult;
+import com.wjn.utils.JsonReturnCode;
 import com.wjn.utils.PasswordUtil;
 import com.wjn.utils.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +39,11 @@ import java.util.concurrent.TimeUnit;
 public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private PasswordUtil passwordUtil;
 
     /**
      * 通过传递过来的账号和加密的密码进行数据库调查，如果账号密码正确则返回true
@@ -50,19 +55,13 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public boolean JudgeUser(String username, String password) {
         Example example = new Example(User.class);
-        example.createCriteria().andEqualTo(UserEnum.username.name(),username);
+        example.createCriteria().andEqualTo(User.Fields.username,username);
         List<User> users = userMapper.selectByExample(example);
         if(CollUtil.isEmpty(users)){
             return false;
         }
-        return password.equals(users.get(0).getPassword());
+        return password.equals(CollUtil.getFirst(users).getPassword());
     }
-
-    @Autowired
-    private RedisTemplate redisTemplate;
-
-    @Autowired
-    private PasswordUtil passwordUtil;
 
     @Override
     public String login(LoginUser loginUser, BindingResult result) {
@@ -72,19 +71,19 @@ public class LoginServiceImpl implements LoginService {
             for (ObjectError error : result.getAllErrors()) {
                 sb.append(error.getDefaultMessage()).append("\r\n");
             }
-            throw new SecurityException(sb.toString());
+            throw new ServiceException(sb.toString());
         }
         //验证验证码
         if(StrUtil.isEmpty(loginUser.getUuid())){
-            throw new SecurityException();
+            throw new ServiceException(JsonReturnCode.PARAME_ERROR);
         }
 
         Object pop = redisTemplate.opsForSet().pop(loginUser.getUuid());
         if(pop == null){
-            throw new SecurityException("验证码过期");
+            throw new ServiceException(JsonReturnCode.VERIFICATION_CODE_EXPIRED);
         }
         if(!String.valueOf(pop).equals(loginUser.getVerify())){
-            throw new SecurityException("验证码不正确");
+            throw new ServiceException(JsonReturnCode.VERIFICATION_CODE_ERROR);
         }
 
         //获取加密的密码

@@ -10,6 +10,7 @@ import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,7 +26,7 @@ import java.util.Map;
 @Configuration
 public class ShiroConfiguration {
     @Autowired
-    private ConfigConstant configConstant;
+    private RedisProperties properties;
     //1.创建realm
     @Bean
     public MyRealm getRealm() {
@@ -67,17 +68,8 @@ public class ShiroConfiguration {
          //4.设置过滤器集合
          Map<String,String> filterMap = new LinkedHashMap<>();
          //配置请求连接过滤器配置
-         //匿名访问（所有人员可以使用），这里设置登录和图形验证码所有人可以访问
-         /*
-          * /doc.html    SwaggerBootstrapUi提供的文档访问地址
-          * /api-docs-ext    SwaggerBootstrapUi提供的增强接口地址
-          * /swagger-resources    Springfox-Swagger提供的分组接口
-          * /api-docs    Springfox-Swagger提供的分组实例详情接口
-          * /swagger-ui.html    Springfox-Swagger提供的文档访问地址
-          * /swagger-resources/configuration/ui    Springfox-Swagger提供
-          * /swagger-resources/configuration/security    Springfox-Swagger提供
-          */
 
+         filterMap.put("/actuator/**", "anon");
          filterMap.put("/druid/**", "anon");
          filterMap.put("/login", "anon");
          filterMap.put("/captcha", "anon");
@@ -94,8 +86,10 @@ public class ShiroConfiguration {
      * 1.redis的控制器，操作redis
      */
     private RedisManager redisManager() {
+
         RedisManager redisManager = new RedisManager();
-        redisManager.setHost(configConstant.getHost());
+        redisManager.setHost(properties.getHost()+":"+properties.getPort());
+        redisManager.setPassword(properties.getPassword());
         return redisManager;
     }
 

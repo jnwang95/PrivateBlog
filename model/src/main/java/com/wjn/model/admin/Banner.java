@@ -1,6 +1,8 @@
 package com.wjn.model.admin;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,17 +14,25 @@ import java.io.Serializable;
  * @date 2019/9/30 16:15
  * @describetion Banner
  */
-@Data
+@Getter
+@Setter
+@FieldNameConstants
 public class Banner implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "JDBC")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //名称标志
+    /**
+     * 名称标志
+     */
     private String html;
-    //图片路径
+    /**
+     * 图片路径
+     */
     private String url;
-    //内容
+    /**
+     * 内容
+     */
     private String content;
 
 }

@@ -1,6 +1,8 @@
 package com.wjn.model.admin;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,11 +14,13 @@ import java.io.Serializable;
  * @author: jnWang
  * @create: 2019-11-19 16:08
  */
-@Data
+@Getter
+@Setter
+@FieldNameConstants
 public class UserRole implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "JDBC")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**

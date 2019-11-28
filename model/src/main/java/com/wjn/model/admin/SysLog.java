@@ -1,7 +1,8 @@
 package com.wjn.model.admin;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,34 +16,43 @@ import java.util.Date;
  * @describe 系统日志类
  */
 
-@Data
+@Getter
+@Setter
+@FieldNameConstants
 public class SysLog implements Serializable{
-
-	//id
-	@ApiModelProperty("主键id")
+	/**
+	 * id
+	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "JDBC")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	//账号
-	@ApiModelProperty("账号")
+	/**
+	 * 账号
+	 */
 	private String username;
-	//操作
-	@ApiModelProperty("操作")
+	/**
+	 * 操作
+	 */
 	private String operation;
-	//时间
-	@ApiModelProperty("执行时长")
+	/**
+	 * 时间
+	 */
 	private Integer time;
-	//方法
-	@ApiModelProperty("方法")
+	/**
+	 * 方法
+	 */
 	private String method;
-	//属性
-	@ApiModelProperty("属性")
+	/**
+	 * 属性
+	 */
 	private String params;
-	//ip
-	@ApiModelProperty("ip")
+	/**
+	 * ip
+	 */
 	private String ip;
-	//创建时间
-	@ApiModelProperty("创建时间")
+	/**
+	 * 创建时间
+	 */
 	private Date createTime;
 
 }

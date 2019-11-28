@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,11 +64,10 @@ public class BlogController {
 
     /**
      * Upload title img json result.
-     *
+     * 上传默认图片
      * @param file the file
      * @return the json result
      */
-   //上传默认图片
     @RequiresRoles(value = "host")
     @PostMapping("/uploadTitleImg")
     public JsonResult uploadTitleImg(@RequestParam("file") MultipartFile file) {
@@ -94,61 +92,57 @@ public class BlogController {
 
     /**
      * Insert title img json result.
-     *
+     * 新增默认图片入库
      * @param url the url
      * @return the json result
      */
-    //新增默认图片入库
     @RequiresRoles(value = "host")
     @PostMapping("insertTitleImg")
     public JsonResult insertTitleImg(String url){
         boolean result = blogService.insertTitleImg(url);
         if(result){
-            return JsonResult.success("添加成功！");
+            return JsonResult.successMessage("添加成功！");
         }
-        return JsonResult.fail("添加失败");
+        return JsonResult.failMessage("添加失败");
     }
 
     /**
      * Insert blog json result.
-     *
+     * 新增博客
      * @param blogContentVo the blog content vo
      * @return the json result
      */
-    //新增博客
     @RequiresRoles(value = "host")
     @PostMapping("insertBlog")
     public JsonResult insertBlog(BlogContentVo blogContentVo){
         boolean result = blogService.insertBlog(blogContentVo);
         if(result){
-            return JsonResult.success("添加成功！");
+            return JsonResult.successMessage("添加成功！");
         }
-        return JsonResult.fail("添加失败");
+        return JsonResult.failMessage("添加失败");
     }
 
     /**
      * Updata blog json result.
-     *
+     * 修改博客
      * @param blogContentVo the blog content vo
      * @return the json result
      */
-    //修改博客
     @RequiresRoles(value = "host")
     @PostMapping("updataBlog")
     public JsonResult updataBlog(BlogContentVo blogContentVo){
         boolean result = blogService.updataBlog(blogContentVo);
         if(result){
-            return JsonResult.success("添加成功！");
+            return JsonResult.successMessage("添加成功！");
         }
-        return JsonResult.fail("添加失败");
+        return JsonResult.failMessage("添加失败");
     }
 
     /**
      * Get category id json result.
-     *
+     * 获取最新的分类id
      * @return the json result
      */
-    //获取最新的分类id
     @RequiresRoles(value = {"common"})
     @GetMapping("getCategoryId")
     public JsonResult getCategoryId(){
@@ -158,28 +152,26 @@ public class BlogController {
 
     /**
      * Add category json result.
-     *
+     * 新增分类
      * @param categoryVo the category vo
      * @return the json result
      */
-    //新增分类
     @RequiresRoles(value = "host")
     @PostMapping("addCategory")
     public JsonResult addCategory(CategoryVo categoryVo){
         boolean result = blogService.addCategory(categoryVo);
         if(result){
-            return JsonResult.success("添加成功！");
+            return JsonResult.successMessage("添加成功！");
         }
-        return JsonResult.fail("添加失败");
+        return JsonResult.failMessage("添加失败");
     }
 
     /**
      * Get categorys json result.
-     *
+     * 获取分类列表
      * @param categoryVo the category vo
      * @return the json result
      */
-    //获取分类列表
     @RequiresRoles(value = {"common"})
     @PostMapping("getCategorys")
     public JsonResult getCategorys(CategoryVo categoryVo){
@@ -189,11 +181,10 @@ public class BlogController {
 
     /**
      * Updata category state json result.
-     *
+     * 修改分类状态
      * @param categoryVo the category vo
      * @return the json result
      */
-    //修改分类状态
     @RequiresRoles(value = "host")
     @PostMapping("updataCategoryState")
     public JsonResult updataCategoryState(CategoryVo categoryVo){
@@ -201,16 +192,15 @@ public class BlogController {
         if(result){
             return JsonResult.success();
         }
-        return JsonResult.fail("修改失败");
+        return JsonResult.failMessage("修改失败");
     }
 
     /**
      * Updata blog state json result.
-     *
+     * 修改博客状态
      * @param blogContentVo the blog content vo
      * @return the json result
      */
-    //修改博客状态
     @RequiresRoles(value = "host")
     @PostMapping("updataBlogState")
     public JsonResult updataBlogState(BlogContentVo blogContentVo){
@@ -218,16 +208,15 @@ public class BlogController {
         if(result){
             return JsonResult.success();
         }
-        return JsonResult.fail("修改失败");
+        return JsonResult.failMessage("修改失败");
     }
 
     /**
      * Delete category json result.
-     *
+     * 删除分类
      * @param id the id
      * @return the json result
      */
-    //删除分类
     @RequiresRoles(value = "host")
     @DeleteMapping("deleteCategory")
     public JsonResult deleteCategory(String id){
@@ -235,16 +224,15 @@ public class BlogController {
         if(result){
             return JsonResult.success();
         }
-        return JsonResult.fail("删除失败");
+        return JsonResult.failMessage("删除失败");
     }
 
     /**
      * Delete blog json result.
-     *
+     * 删除博客
      * @param id the id
      * @return the json result
      */
-    //删除博客
     @RequiresRoles(value = "host")
     @DeleteMapping("deleteBlog")
     public JsonResult deleteBlog(String id){
@@ -252,16 +240,15 @@ public class BlogController {
         if(result){
             return JsonResult.success();
         }
-        return JsonResult.fail("删除失败");
+        return JsonResult.failMessage("删除失败");
     }
 
     /**
      * Delete title img by id json result.
-     *
+     * 删除默认图片
      * @param id the id
      * @return the json result
      */
-    //删除默认图片
     @RequiresRoles(value = "host")
     @DeleteMapping("deleteTitleImgById")
     public JsonResult deleteTitleImgById(String id){
@@ -269,16 +256,15 @@ public class BlogController {
         if(result){
             return JsonResult.success();
         }
-        return JsonResult.fail("删除失败");
+        return JsonResult.failMessage("删除失败");
     }
 
     /**
      * Gets name by id.
-     *
+     * 根据id获取名称
      * @param id the id
      * @return the name by id
      */
-    //根据id获取名称
     @RequiresRoles(value = {"common"})
     @GetMapping("getNameById/{id}")
     public JsonResult getNameById(@PathVariable("id") Integer id){
@@ -288,34 +274,32 @@ public class BlogController {
 
     /**
      * Updata category name by id json result.
-     *
+     * 修改名称
      * @param categoryVo the category vo
      * @return the json result
      */
-    //修改名称
     @RequiresRoles(value = "host")
     @PostMapping("updataCategoryNameById")
     public JsonResult updataCategoryNameById(CategoryVo categoryVo){
         if(StrUtil.isEmpty(categoryVo.getName())){
-            return JsonResult.fail("修改失败");
+            return JsonResult.failMessage("修改失败");
         }
         if(categoryVo.getId() == null){
-            return JsonResult.fail("参数异常");
+            return JsonResult.failMessage("参数异常");
         }
         boolean result = blogService.updataCategoryNameById(categoryVo);
         if(result){
             return JsonResult.success();
         }
-        return JsonResult.fail("修改失败");
+        return JsonResult.failMessage("修改失败");
     }
 
     /**
      * Batch delete category json result.
-     *
+     * 批量删除分类
      * @param ids the ids
      * @return the json result
      */
-    //批量删除分类
     @RequiresRoles(value = "host")
     @PostMapping("batchDeleteCategory")
     public JsonResult batchDeleteCategory(String ids){
@@ -328,11 +312,10 @@ public class BlogController {
 
     /**
      * Batch delete blog json result.
-     *
+     * 批量删除博客
      * @param ids the ids
      * @return the json result
      */
-    //批量删除博客
     @PostMapping("batchDeleteBlog")
     @RequiresRoles(value = "host")
     public JsonResult batchDeleteBlog(String ids){
@@ -345,10 +328,9 @@ public class BlogController {
 
     /**
      * Get category id and name json result.
-     *
+     * 获取分类id和name
      * @return the json result
      */
-    //获取分类id和name
     @RequiresRoles(value = {"common"})
     @GetMapping("getCategoryIdAndName")
     public JsonResult getCategoryIdAndName(){
@@ -359,11 +341,10 @@ public class BlogController {
 
     /**
      * Get blogs json result.
-     *
+     * 获取博客列表
      * @param blogContentVo the blog content vo
      * @return the json result
      */
-    //获取博客列表
     @RequiresRoles(value = {"common"})
     @PostMapping("getBlogs")
     public JsonResult getBlogs(BlogContentVo blogContentVo){
@@ -373,11 +354,10 @@ public class BlogController {
 
     /**
      * Gets blog content by id.
-     *
+     * 根据id获取博客内容
      * @param id the id
      * @return the blog content by id
      */
-    //根据id获取博客内容
     @RequiresRoles(value = {"common"})
     @GetMapping("getBlogContentById/{id}")
     public JsonResult getBlogContentById(@PathVariable("id")Integer id){
@@ -387,11 +367,10 @@ public class BlogController {
 
     /**
      * Gets blog by id.
-     *
+     * 根据id获取博客
      * @param id the id
      * @return the blog by id
      */
-    //根据id获取博客
     @RequiresRoles(value = {"common"})
     @GetMapping("getBlogById/{id}")
     public JsonResult getBlogById(@PathVariable("id")Integer id){
@@ -401,10 +380,9 @@ public class BlogController {
 
     /**
      * Get all title img json result.
-     *
+     * 获取所有默认图片
      * @return the json result
      */
-    //获取所有默认图片
     @RequiresRoles(value = {"common"})
     @GetMapping("getAllTitleImg")
     public JsonResult getAllTitleImg(){
@@ -414,10 +392,9 @@ public class BlogController {
 
     /**
      * Get random url json result.
-     *
+     * 随机获取url
      * @return the json result
      */
-    //随机获取url
     @RequiresRoles(value = {"common"})
     @GetMapping("getRandomUrl")
     public JsonResult getRandomUrl(){
@@ -427,11 +404,10 @@ public class BlogController {
 
     /**
      * Updata title img state json result.
-     *
+     * 修改默认图片的状态
      * @param titleImgVo the title img vo
      * @return the json result
      */
-    //修改默认图片的状态
     @RequiresRoles(value = "host")
     @PostMapping("updataTitleImgState")
     public JsonResult updataTitleImgState(TitleImgVo titleImgVo){

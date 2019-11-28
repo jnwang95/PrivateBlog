@@ -9,42 +9,32 @@ import lombok.Data;
 @Data
 public class JsonResult<T> {
 
-    private String code;
+    private Integer code;
     private String msg;
     private T data;
 
-    @Override
-    public String toString() {
-        return "code=" + code + " message=" + msg + " data=" + data;
-    }
-
     public static <T> JsonResult<T> fail() {
-    	JsonResult<T> ret = new JsonResult<T>();
+    	JsonResult<T> ret = new JsonResult<>();
     	ret.setCode(JsonReturnCode.FAIL.getCode());
     	ret.setMsg(JsonReturnCode.FAIL.getDesc());
         return ret;
     }
-    
-    public static <T>  JsonResult<T> fail(T data) {
-	    	JsonResult<T> ret = JsonResult.fail();
-	    	ret.setData(data);
-        return ret;
-    }
-    
+
+
     public static <T>  JsonResult<T> failMessage(String msg) {
 	    	JsonResult<T> ret = JsonResult.fail();
-	    	ret.setMsg(msg);
+            ret.setMsg(msg);
         return ret;
     }
+
     public static <T>  JsonResult<T> successMessage(String msg) {
 	    	JsonResult<T> ret = JsonResult.success();
 	    	ret.setMsg(msg);
 	    return ret;
     }
-    
 
     public static <T> JsonResult<T> success() {
-    	JsonResult<T> ret = new JsonResult<T>();
+    	JsonResult<T> ret = new JsonResult<>();
     	ret.setCode(JsonReturnCode.SUCCESS.getCode());
     	ret.setMsg(JsonReturnCode.SUCCESS.getDesc());
         return ret;
@@ -55,22 +45,5 @@ public class JsonResult<T> {
 	    	ret.setData(data);
         return ret;
     }
-    
-    public static <T> JsonResult<T>  http404(T data) {
-	    	JsonResult<T> ret = new JsonResult<T>();
-	    	ret.setCode(JsonReturnCode.NOT_FOUND.getCode());
-	    	ret.setMsg(JsonReturnCode.NOT_FOUND.getDesc());
-	    	ret.setData(data);
-        return ret;
-    }
-    
-    public static <T> JsonResult<T> http403(T data) {
-	    	JsonResult<T> ret = new JsonResult<T>();
-	    	ret.setCode(JsonReturnCode.ACCESS_ERROR.getCode());
-	    	ret.setMsg(JsonReturnCode.ACCESS_ERROR.getDesc());
-	    	ret.setData(data);
-        return ret;
-    }
 
-  
 }

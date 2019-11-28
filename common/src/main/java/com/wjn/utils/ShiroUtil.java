@@ -17,7 +17,7 @@ public class ShiroUtil {
      * 获取subject
      * @return
      */
-    public static Subject getSubject(){
+    private static Subject getSubject(){
         return SecurityUtils.getSubject();
     }
 

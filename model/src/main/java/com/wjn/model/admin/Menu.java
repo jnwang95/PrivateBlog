@@ -1,8 +1,8 @@
 package com.wjn.model.admin;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.Accessors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,24 +14,36 @@ import java.io.Serializable;
  * @date 2019/9/17 15:24
  * @describetion
  */
-@Data
-@Accessors(chain = true)
-@RequiredArgsConstructor(staticName = "of")
+@Getter
+@Setter
+@FieldNameConstants
 public class Menu implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "JDBC")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   //名称
+    /**
+     * 名称
+     */
     private String menuName;
-    //网址
+    /**
+     * 网址
+     */
     private String url;
-    //描述
+    /**
+     * 描述
+     */
     private String description;
-    //添加时间
+    /**
+     * 添加时间
+     */
     private Long entryTime;
-    //启用状态
+    /**
+     * 启用状态
+     */
     private Integer state;
-    //排序
+    /**
+     * 排序
+     */
     private Integer sort;
 }
