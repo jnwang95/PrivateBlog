@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>编辑分类</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <link rel="stylesheet" href="./comm/comm.css">
+        <script type="text/javascript" src="./comm/comm.js"></script>
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row">
+                  <div class="layui-form-item">
+                      <label for="name" class="layui-form-label">
+                          <span class="x-red">*</span>名称
+                      </label>
+                      <div class="layui-input-inline">
+                          <input type="text" id="name" name="name" required="" lay-verify="required"
+                          autocomplete="off" class="layui-input">
+                      </div>
+                      <div class="layui-form-mid layui-word-aux">
+                          <span class="x-red">*</span>请输入要修改的名称
+                      </div>
+                  </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button  class="layui-btn" id="updata">修改</button>
+                            <button  class="layui-btn layui-btn-danger" id="cancer">取消</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <script src="js/edit_category.js"></script>
+    </body>
+
+</html>

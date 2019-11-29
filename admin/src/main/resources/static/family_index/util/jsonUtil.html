@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原生js格式化json的方法</title>
+    <script>
+    //格式化代码函数,已经用原生方式写好了不需要改动,直接引用就好
+    var formatJson = function (json) {
+        var formatted = '',     //转换后的json字符串
+            padIdx = 0,         //换行后是否增减PADDING的标识
+            PADDING = '    ';   //4个空格符
+        /**
+         * 将对象转化为string
+         */
+        if (typeof json !== 'string') {
+            json = JSON.stringify(json);
+        }
+        /** 
+         *利用正则类似将{'name':'ccy','age':18,'info':['address':'wuhan','interest':'playCards']}
+         *---> \r\n{\r\n'name':'ccy',\r\n'age':18,\r\n
+         *'info':\r\n[\r\n'address':'wuhan',\r\n'interest':'playCards'\r\n]\r\n}\r\n
+         */
+        json = json.replace(/([\{\}])/g, '\r\n$1\r\n')
+                    .replace(/([\[\]])/g, '\r\n$1\r\n')
+                    .replace(/(\,)/g, '$1\r\n')
+                    .replace(/(\r\n\r\n)/g, '\r\n')
+                    .replace(/\r\n\,/g, ',');
+        /** 
+         * 根据split生成数据进行遍历，一行行判断是否增减PADDING
+         */
+       (json.split('\r\n')).forEach(function (node, index) {
+            var indent = 0,
+                padding = '';
+            if (node.match(/\{$/) || node.match(/\[$/)) indent = 1;
+            else if (node.match(/\}/) || node.match(/\]/))  padIdx = padIdx !== 0 ? --padIdx : padIdx;
+            else    indent = 0;
+            for (var i = 0; i < padIdx; i++)    padding += PADDING;
+            formatted += padding + node + '\r\n';
+            padIdx += indent;
+            console.log('index:'+index+',indent:'+indent+',padIdx:'+padIdx+',node-->'+node);
+        });
+        return formatted;
+    };
+    //引用示例部分
+    //var originalJson = {'name':'ccy','age':18,'info':[{'address':'wuhan'},{'interest':'playCards'}]};
+    var showJson = function(){
+        var originalJson = document.getElementById('inputJson').value;
+        //(2)调用formatJson函数,将json格式进行格式化
+        var resultJson = formatJson(originalJson);
+        document.getElementById('out').innerHTML = resultJson;
+    }
+</script>
+</head>
+<body>
+    <span style="position:absolute;left:0px;top:20px;font-size: 20px;font-family: '微软雅黑';color: #2F4F4F;">输入json</span>
+    <textarea style="position:absolute;left:0px;top:80px;width:40%;height:80%;" cols="50" rows="20" id="inputJson"></textarea>
+    <span style="position:absolute;left:55%;top:20px;font-size: 20px;font-family: '微软雅黑';color: #2F4F4F;">查看结果</span>
+    <textarea style="position:absolute;left:55%;top:80px;width:40%;height:80%;display: " id="out"></textarea>
+    <div style="position:absolute;left:45%;top:12%;width:6%;height:4%;">
+    <input type="button" value="提交" onclick="showJson();">
+    </div>
+</body>
+</html>

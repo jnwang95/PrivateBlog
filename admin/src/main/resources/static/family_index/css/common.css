@@ -1,0 +1,19 @@
+body {
+  padding-top: 50px;
+}
+.blog-footer {
+  padding: 40px 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e5e5e5;
+}
+.blog-footer p {
+  margin-bottom: 0;
+}
+
+.retop{
+	position:fixed;
+	right:0;bottom:0;
+    z-index: 999;
+}

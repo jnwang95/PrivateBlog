@@ -5,6 +5,7 @@ import com.wjn.monitor.service.RedisService;
 import com.wjn.utils.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,4 +77,12 @@ public class ActuatorRedisController {
   		}
   		return JsonResult.success(list);
   	}
+
+  	@GetMapping("tomcat")
+	public void tomcat(){
+		ServerProperties.Tomcat tomcat = new ServerProperties.Tomcat();
+		int acceptCount = tomcat.getAcceptCount();
+
+		System.out.println(acceptCount);
+	}
 }

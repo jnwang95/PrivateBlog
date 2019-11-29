@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>汪靖宁的个人博客</title>
+	<link rel="icon" href="img/ico/wjn.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	
+  </head>
+	<body>
+		
+		<button class="btn btn-danger  mysql">查看数据库</button>
+		<div class="container databases">
+			<div class="dataleft col-md-4">
+				
+			</div>
+			<div class="dataright col-md-8 oppen" style="display: none;">
+				<button type="button" class="btn btn-success tableCss">查看表属性</button>
+				<table class="table table-bordered tableTop">
+				  <thead>
+					  <tr id="thead">
+					  </tr>
+				  </thead>
+				  <tbody id="tbody">
+				  </tbody>
+				</table>
+				
+				<table class="table table-bordered tableBottom" style="display: none;">
+					<thead >
+						  <tr>
+							  <th>序号</th>
+							  <th>Filed Name</th>
+							  <th>DataType</th>
+							  <th>Len</th>
+							  <th>Default</th>
+							  <th>是否为空</th>
+							  <th>是否为主键</th>
+							  <th>是否自增</th>
+							  <th>Comment</th>
+						  </tr>
+					</thead>
+					<tbody id="tableCss">
+					
+					</tbody>
+				</table>
+				
+			</div>
+		</div>
+		
+
+
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script src="common/bootstrap.min.js"></script>
+		<script src="js/mysql.js"></script>
+	</body>
+</html>

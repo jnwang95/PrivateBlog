@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>汪靖宁的个人博客</title>
+	<link rel="icon" href="img/ico/wjn.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+	<link href="css/index.css" rel="stylesheet">
+  </head>
+  <style>
+	  #wr-page{
+		  text-align: center;
+		  margin-bottom: 30px;
+	  }
+	  .wrpage{
+		  display: inline-block;
+		  background: skyblue;
+		  margin-left: 4px;
+		  height: 40px;
+		  line-height: 24px;
+		  border: 1px solid skyblue;
+		  padding: 5px 10px 5px 10px;
+		  font-size: 18px;
+		  cursor: pointer;
+		  border-radius: 3px;
+	  }
+	  a.wrpage:hover{
+		  background: #FFFFFF;
+		  color: black;
+          text-decoration:none;
+	  }
+	  a {
+		  text-decoration:none;
+		  color: white;
+	  }
+	  .wrpage_number{
+		  height: 40px;
+		  width: 50px;
+		  font-size: 16px;
+		  text-align: center;
+	  }
+	  .wr_dotted{
+		  height: 24px;
+		  line-height: 24px;
+		  display: inline-block;
+	  }
+	  .curwrpage{
+		  background: #FFFFFF;
+
+		  border: 1px solid skyblue;
+	  }
+  </style>
+  <body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand header" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav menu">
+          </ul>
+
+		  <form class="navbar-form navbar-right">
+			  <div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			  </div>
+			  <button type="submit" class="btn btn-default">查找</button>
+		  </form>
+        </div>
+      </div>
+    </nav>
+
+    <!--		巨幕-->
+	<div class="jumbotron">
+		<div class="container banner-content">
+
+		</div>
+    </div>
+
+	<div class="container" id="tbody">
+<!--		内容-->
+		<div class="row blogTitle">	
+
+		</div>
+<!--		分页-->
+		<div id="wr-page">
+
+		</div>
+	</div>
+
+	<a class="btn btn-primary retop" href="#" role="button">
+	回到顶部
+	</a>
+    <footer class="blog-footer cro_bot">
+      <p>2019 MAKE IN WJN </p>
+    </footer>
+
+    <script src="common/jquery.min.js"></script>
+    <script src="common/bootstrap.min.js"></script>
+	<script src="common/common.js"></script>
+    <script src="util/page.js"></script>
+	<script src="js/index.js"></script>
+  </body>
+</html>

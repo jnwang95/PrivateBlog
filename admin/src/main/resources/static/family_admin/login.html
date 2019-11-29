@@ -1,0 +1,40 @@
+<!doctype html>
+<html  class="x-admin-sm">
+<head>
+	<meta charset="UTF-8">
+	<title>后台登录-family_admin</title>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/login.css">
+	<link rel="stylesheet" href="comm/xadmin.css">
+    <script type="text/javascript" src="comm/jquery.min.js"></script>
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script src="../config/config.js" charset="utf-8"></script>
+</head>
+<body class="login-bg">
+    
+    <div class="login layui-anim layui-anim-up">
+        <div class="message">privateBlog-管理登录</div>
+        <div id="darkbannerwrap"></div>
+            <input name="username" placeholder="用户名"  type="text" class="layui-input" id="username">
+            <hr class="hr15">
+            <input name="password" placeholder="密码"  type="password" class="layui-input" id="password">
+            <hr class="hr15">
+			<div class="layui-row inline-block">
+					<div class="layui-col-xs7">
+						<input name="verify" id="verify" type="text"  class="layui-input">
+					</div>
+					<div class="layui-col-xs5" style="padding-left: 20px;">
+						<img id="imgVerify"  alt="验证码" height="36" >
+					</div>
+				</div>
+			<hr class="hr15">
+            <input value="登录" id="submit" style="width:100%;" type="button">
+            <hr class="hr20" >
+			游客：root
+			密码：123456
+    </div>
+</body>
+<script type="text/javascript" src="js/login.js"></script>
+</html>
