@@ -1,13 +1,16 @@
 package com.wjn.model.admin;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
+import sun.misc.Unsafe;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Date;
 
 /**
@@ -52,3 +55,4 @@ public class UserLoginLog implements Serializable{
 	private Date createTime;
 
 }
+
