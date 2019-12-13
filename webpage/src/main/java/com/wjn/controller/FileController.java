@@ -24,7 +24,7 @@ public class FileController {
     private ConfigConstant configConstant;
 
     @PostMapping("/upload")
-    public JsonResult<String> uploadBlog(MultipartFile file) {
+    public JsonResult<String> uploadBlog(@RequestParam("file") MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
         //获取图片后缀名
         assert originalFilename != null;
