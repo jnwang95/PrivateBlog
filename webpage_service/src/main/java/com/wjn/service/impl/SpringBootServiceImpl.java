@@ -44,6 +44,7 @@ public class SpringBootServiceImpl implements SpringBootService {
         BlogContent blogContent = blogContentMapper.selectByPrimaryKey(id);
         SpringbootQTdetail springbootQTdetail = new SpringbootQTdetail();
         springbootQTdetail.setContent(blogContent.getContent());
+        springbootQTdetail.setTitle(blogContent.getTitle());
         return springbootQTdetail;
     }
 }
