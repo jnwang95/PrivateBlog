@@ -30,9 +30,7 @@ public class ShiroLoginFilterConfig implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         // 允许哪些Origin发起跨域请求
-        String orgin = request.getHeader("Origin");
-        // response.setHeader( "Access-Control-Allow-Origin", config.getInitParameter( "AccessControlAllowOrigin" ) );
-        response.setHeader( "Access-Control-Allow-Origin", orgin );
+        response.setHeader( "Access-Control-Allow-Origin", "*" );
         // 允许请求的方法
         response.setHeader( "Access-Control-Allow-Methods", "POST,GET,OPTIONS,DELETE,PUT" );
         //多少秒内,不需要再发送预检验请求，可以缓存该结果

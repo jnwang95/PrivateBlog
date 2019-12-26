@@ -6,13 +6,13 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * @description: springboot全套详情
+ * @description: springboot详情
  * @author: jnWang
  * @create: 2019-12-13 18:24
  */
 @Getter
 @Setter
-public class SpringbootQTdetail implements Serializable {
+public class SpringbootDetail implements Serializable {
 
     /**
      * 文章标题

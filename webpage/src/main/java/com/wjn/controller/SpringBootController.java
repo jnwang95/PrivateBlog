@@ -1,7 +1,7 @@
 package com.wjn.controller;
 
 import com.wjn.bean.model.SpringBootQT;
-import com.wjn.bean.model.SpringbootQTdetail;
+import com.wjn.bean.model.SpringbootDetail;
 import com.wjn.service.SpringBootService;
 import com.wjn.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +37,26 @@ private SpringBootService springBootService;
      * springboot全套文章详情
      */
     @GetMapping("getSpringBootQTdetail/{id}")
-    public JsonResult<SpringbootQTdetail> getSpringBootQTdetail(@PathVariable("id") String id){
-        SpringbootQTdetail springBootQTdetail = springBootService.getSpringBootQTdetail(id);
+    public JsonResult<SpringbootDetail> getSpringBootQTdetail(@PathVariable("id") String id){
+        SpringbootDetail springBootQTdetail = springBootService.getSpringBootQTdetail(id);
         return JsonResult.success(springBootQTdetail);
     }
 
+    /**
+     * springboot_gitee
+     */
+    @GetMapping("getSpringBootByGitee")
+    public JsonResult<SpringbootDetail> getSpringBootByGitee(){
+        SpringbootDetail springBootQTdetail  = springBootService.getSpringBootByGitee();
+        return JsonResult.success(springBootQTdetail);
+    }
+
+    /**
+     * springboot_github
+     */
+    @GetMapping("getSpringBootByGithub")
+    public JsonResult<SpringbootDetail> getSpringBootByGithub(){
+        SpringbootDetail springBootQTdetail  = springBootService.getSpringBootByGithub();
+        return JsonResult.success(springBootQTdetail);
+    }
 }
