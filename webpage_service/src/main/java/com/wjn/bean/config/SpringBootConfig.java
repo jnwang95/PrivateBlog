@@ -12,7 +12,7 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 @Setter
 @Getter
-public class SpringbootConfig {
+public class SpringBootConfig {
 
     public static String SPRINGBOOT_GITEE = "springboot_gitee";
 

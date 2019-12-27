@@ -2,13 +2,13 @@ package com.wjn.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import com.wjn.bean.config.SpringBootConfig;
-import com.wjn.bean.model.SpringBootQT;
-import com.wjn.bean.model.SpringBootDetail;
+import com.wjn.bean.config.SpringCloudConfig;
+import com.wjn.bean.model.SpringCloudDetail;
+import com.wjn.bean.model.SpringCloudQT;
 import com.wjn.constant.NaturalNumber;
 import com.wjn.mapper.BlogContentMapper;
 import com.wjn.model.admin.BlogContent;
-import com.wjn.service.SpringBootService;
+import com.wjn.service.SpringCloudService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,53 +23,53 @@ import java.util.List;
  * @create: 2019-12-13 15:44
  */
 @Service
-public class SpringBootServiceImpl implements SpringBootService {
+public class SpringCloudServiceImpl implements SpringCloudService {
 
     @Autowired
     private BlogContentMapper blogContentMapper;
 
     @Override
-    public List<SpringBootQT> getSpringBootQT() {
+    public List<SpringCloudQT> getSpringCloudQT() {
         Example example = new Example(BlogContent.class);
         example.selectProperties(BlogContent.Fields.id,BlogContent.Fields.title);
-        example.createCriteria().andEqualTo(BlogContent.Fields.categoryId,20);
+        example.createCriteria().andEqualTo(BlogContent.Fields.categoryId,21);
         List<BlogContent> blogContents = blogContentMapper.selectByExample(example);
-        List<SpringBootQT> springBootQTS = new ArrayList<>();
+        List<SpringCloudQT> springCloudQTS = new ArrayList<>();
         for (BlogContent blogContent : blogContents) {
-            SpringBootQT springBootQT = new SpringBootQT();
-            BeanUtil.copyProperties(blogContent,springBootQT);
-            springBootQTS.add(springBootQT);
+            SpringCloudQT springCloudQT = new SpringCloudQT();
+            BeanUtil.copyProperties(blogContent,springCloudQT);
+            springCloudQTS.add(springCloudQT);
         }
-        return springBootQTS;
+        return springCloudQTS;
     }
 
     @Override
-    public SpringBootDetail getSpringBootQTdetail(String id) {
+    public SpringCloudDetail getSpringCloudQTdetail(String id) {
         BlogContent blogContent = blogContentMapper.selectByPrimaryKey(id);
-        SpringBootDetail springbootdetail = new SpringBootDetail();
-        springbootdetail.setContent(blogContent.getContent());
-        springbootdetail.setTitle(blogContent.getTitle());
-        return springbootdetail;
+        SpringCloudDetail springClouddetail = new SpringCloudDetail();
+        springClouddetail.setContent(blogContent.getContent());
+        springClouddetail.setTitle(blogContent.getTitle());
+        return springClouddetail;
     }
 
     @Override
-    public SpringBootDetail getSpringBootByGitee() {
-        return getSpringbootDetail(SpringBootConfig.SPRINGBOOT_GITEE);
+    public SpringCloudDetail getSpringCloudByGitee() {
+        return getSpringCloudDetail(SpringCloudConfig.SPRINGCLOUD_GITEE);
     }
 
     @Override
-    public SpringBootDetail getSpringBootByGithub() {
-       return getSpringbootDetail(SpringBootConfig.SPRINGBOOT_GITHUB);
+    public SpringCloudDetail getSpringCloudByGithub() {
+       return getSpringCloudDetail(SpringCloudConfig.SPRINGCLOUD_GITHUB);
     }
 
-    private SpringBootDetail getSpringbootDetail(String str){
+    private SpringCloudDetail getSpringCloudDetail(String str){
         Example example = new Example(BlogContent.class);
         example.selectProperties(BlogContent.Fields.title,BlogContent.Fields.content);
         example.createCriteria().andEqualTo(BlogContent.Fields.title,str);
         List<BlogContent> blogContents = blogContentMapper.selectByExampleAndRowBounds(example, new RowBounds(NaturalNumber.zero, NaturalNumber.one));
         BlogContent blogContent = CollUtil.getFirst(blogContents);
-        SpringBootDetail springbootDetail = new SpringBootDetail();
-        BeanUtil.copyProperties(blogContent,springbootDetail);
-        return springbootDetail;
+        SpringCloudDetail springCloudDetail = new SpringCloudDetail();
+        BeanUtil.copyProperties(blogContent,springCloudDetail);
+        return springCloudDetail;
     }
 }

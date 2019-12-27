@@ -2,18 +2,19 @@ package com.wjn.bean.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
 
 /**
- * @description: springboot详情
+ * @description: Article博客详情
  * @author: jnWang
- * @create: 2019-12-13 18:24
+ * @create: 2019-12-27 15:48
  */
-@Getter
 @Setter
-public class SpringbootDetail implements Serializable {
-
+@Getter
+@FieldNameConstants
+public class ArticleBlogDetail implements Serializable {
     /**
      * 文章标题
      */

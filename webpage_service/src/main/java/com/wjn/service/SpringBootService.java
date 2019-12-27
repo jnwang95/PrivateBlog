@@ -1,7 +1,7 @@
 package com.wjn.service;
 
 import com.wjn.bean.model.SpringBootQT;
-import com.wjn.bean.model.SpringbootDetail;
+import com.wjn.bean.model.SpringBootDetail;
 
 import java.util.List;
 
@@ -17,16 +17,16 @@ public interface SpringBootService {
      * @param id
      * @return
      */
-    SpringbootDetail getSpringBootQTdetail(String id);
+    SpringBootDetail getSpringBootQTdetail(String id);
 
     /**
      * 获取springboot_gitee
      * @return
      */
-    SpringbootDetail getSpringBootByGitee();
+    SpringBootDetail getSpringBootByGitee();
     /**
      * 获取springboot_github
      * @return
      */
-    SpringbootDetail getSpringBootByGithub();
+    SpringBootDetail getSpringBootByGithub();
 }

@@ -147,6 +147,11 @@ public class BlogServiceImpl implements BlogService {
     public boolean insertBlog(BlogContentVo blogContenVo) {
         BlogContent blogContent = new  BlogContent();
         BlogContentVo.conver(blogContenVo,blogContent);
+        Integer categoryId = blogContenVo.getCategoryId();
+        Category category = categoryMapper.selectByPrimaryKey(categoryId);
+        Integer number = category.getNumber();
+        category.setNumber(++ number);
+        categoryMapper.updateByPrimaryKeySelective(category);
         blogContent.setEntryTime(System.currentTimeMillis());
         int resultNumber = blogContentMapper.insertSelective(blogContent);
         return resultNumber == NaturalNumber.one;

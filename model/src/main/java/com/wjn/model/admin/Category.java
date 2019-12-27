@@ -35,4 +35,8 @@ public class Category implements Serializable {
      * 是否启用(只能启用一个 ，1.启用，2.不启用)
      */
     private Integer state;
+    /**
+     * 数量
+     */
+    private Integer number;
 }
