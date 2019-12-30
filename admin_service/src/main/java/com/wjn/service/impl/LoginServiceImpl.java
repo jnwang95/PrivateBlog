@@ -5,7 +5,6 @@ import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.UUID;
-import cn.hutool.core.util.StrUtil;
 import com.wjn.bean.validator.LoginUser;
 import com.wjn.exception.ServiceException;
 import com.wjn.mapper.UserMapper;
@@ -74,10 +73,6 @@ public class LoginServiceImpl implements LoginService {
             throw new ServiceException(sb.toString());
         }
         //验证验证码
-        if(StrUtil.isEmpty(loginUser.getUuid())){
-            throw new ServiceException(JsonReturnCode.PARAME_ERROR);
-        }
-
         Object pop = redisTemplate.opsForSet().pop(loginUser.getUuid());
         if(pop == null){
             throw new ServiceException(JsonReturnCode.VERIFICATION_CODE_EXPIRED);

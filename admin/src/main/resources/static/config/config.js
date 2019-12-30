@@ -1,6 +1,6 @@
 //let ctx = 'http://47.103.121.146:8080/'; //url路劲，按个人配置
-let ctx = 'http://118.89.73.215:8080/';
-//let ctx = 'http://127.0.0.1:8080/';
+//let ctx = 'http://118.89.73.215:8080/';
+let ctx = 'http://127.0.0.1:8088/';
 //配置状态码
 let SUCCESS_CODE = 200;
 let FAIL_CODE = 500;

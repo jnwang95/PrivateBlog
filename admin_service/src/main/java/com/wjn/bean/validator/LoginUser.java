@@ -19,5 +19,6 @@ public class LoginUser {
     @NotBlank(message="验证码不能为空")
     private String verify;
 
+    @NotBlank(message="未知错误")
     private String uuid;
 }

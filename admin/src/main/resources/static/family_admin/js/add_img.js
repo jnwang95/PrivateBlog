@@ -17,7 +17,7 @@ layui.use('upload', function(){
 
     //执行实例
     upload.render({
-        elem: '#uploadImg' ,//绑定元素
+        elem: '#uploadImg' //绑定元素
         ,url: ctx + 'blog/upload' //上传接口
         ,done: function(res){
             if(res.code == SUCCESS_CODE){

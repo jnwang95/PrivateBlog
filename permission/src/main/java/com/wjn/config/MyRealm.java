@@ -1,9 +1,11 @@
 package com.wjn.config;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.wjn.exception.ServiceException;
 import com.wjn.mapper.UserRoleMapper;
 import com.wjn.model.admin.User;
 import com.wjn.service.UserService;
+import com.wjn.utils.JsonReturnCode;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -61,7 +63,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        //1.获取用户的手机号和密码
+        //1.获取用户的账号和密码
         UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
         String username = upToken.getUsername();
         String password = new String( upToken.getPassword());
@@ -71,7 +73,7 @@ public class MyRealm extends AuthorizingRealm {
         if(!BeanUtil.isEmpty(user) && user.getPassword().equals(password)) {
            return new SimpleAuthenticationInfo(user,user.getPassword(),this.getName());
         }else {
-            throw new SecurityException("用户名或者密码错误");
+            throw new ServiceException(JsonReturnCode.USERNAME_AND_PASSWORD_FAIL);
         }
     }
 }

@@ -10,7 +10,6 @@ import com.wjn.utils.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +27,7 @@ import java.util.Map;
  * @describetion 登陆控制器
  */
 @RestController
-@Api(value = "登录接口", description = "登录接口")
+@Api(value = "登录接口")
 public class LoginController {
 
     @Autowired
@@ -42,7 +41,7 @@ public class LoginController {
     @LoginLog
     @PostMapping("login")
     @ApiOperation(value = "用户登录")
-    public JsonResult login(@Valid LoginUser loginUser, BindingResult result){
+    public JsonResult<String> login(@Valid LoginUser loginUser, BindingResult result){
         String sessionId = loginService.login(loginUser,result);
         return JsonResult.success(sessionId);
     }
@@ -53,7 +52,7 @@ public class LoginController {
      */
     @GetMapping("logout")
     @ApiOperation(value = "账号退出")
-    public JsonResult logout(){
+    public JsonResult<String> logout(){
         ShiroUtil.logout();
         return JsonResult.success();
     }
@@ -64,7 +63,7 @@ public class LoginController {
      */
     @GetMapping("captcha")
     @ApiOperation(value = "图形验证码")
-    public JsonResult captcha() throws IOException {
+    public JsonResult<Map<String,String>> captcha() throws IOException {
         Map<String,String> map = loginService.captcha();
         return JsonResult.success(map);
     }

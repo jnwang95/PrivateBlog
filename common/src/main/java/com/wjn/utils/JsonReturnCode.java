@@ -28,6 +28,7 @@ public enum JsonReturnCode {
     TWO_PASSWORD_FAIL(503,"确认密码不相同"),
     TWO_PASSWORD_ERROR(504,"原密码不正确"),
     PASSWORD_CHANGE_FAIL(505,"密码更改失败"),
+    USERNAME_AND_PASSWORD_FAIL(506,"用户名或者密码错误"),
     NOT_LOGIN(401,"没有登录"),
 	ACCESS_ERROR (403,"access_error"),
 	NOT_FOUND (404,"资源未找到");

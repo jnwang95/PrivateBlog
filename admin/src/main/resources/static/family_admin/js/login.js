@@ -36,6 +36,7 @@ layui.use('form', function(){
 				url: login,   
 				data: data,
 				success: function (result) {
+					debugger
 				   if(result.code == SUCCESS_CODE){
 					   //此方法用于同一用户不同页面传递值
 					   window.sessionStorage.setItem("access_token", result.data);
